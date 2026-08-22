@@ -4,6 +4,43 @@ Mudanças de cada versão do `mira-animator`, em linguagem de quem usa.
 
 O histórico começa na 0.1.51. Para o que veio antes, veja o `git log`.
 
+## 0.1.63
+
+### Adicionado
+
+**`/mira-postit`, o mural de post-its ao vivo.** Dois slides: no primeiro a pergunta com um
+QR-code grande e um contador ao vivo; no segundo o mural, onde cada resposta em texto livre da
+plateia aparece como um post-it. É o irmão de resposta aberta do `/mira-survey` e do
+`/mira-quiz`: não há alternativas, não há resposta correta e nada é agregado, cada pessoa
+aparece com a frase dela. Mesma arquitetura já provada: Google Forms coleta, Google Sheets
+guarda, o slide lê por `gviz` com JSONP e funciona com o deck aberto por `file://`.
+
+O que faz a cena funcionar, e não é óbvio:
+
+**A revelação é por visibilidade, não por chegada.** A leitura da planilha roda o tempo todo,
+mas as respostas esperam numa fila. A colagem só começa quando o mural entra na tela. Sem
+isso, o apresentador viraria o slide e daria de cara com uma parede pronta e parada, que é o
+contrário do efeito.
+
+**A grade nasce com as vagas do tamanho final.** Dimensionar a parede pelo número de post-its
+que existem agora parece certo e fica péssimo: uma resposta vira um cartaz no meio da tela e a
+parede inteira encolhe a cada chegada. Aqui as 15 vagas já existem com o mural vazio, e o
+post-it surge na vaga dele, no tamanho em que vai ficar, sem deslocamento e sem giro, com o
+texto entrando logo atrás como se estivesse sendo escrito ali.
+
+**Paginação de 15 com a seta de sempre.** No mural a seta vira a página e só sai do mural
+quando não há para onde paginar, então a seta para trás na primeira página volta para a
+pergunta. Página inédita cola um a um; voltar uma página é instantâneo, porque reanimar o que
+a sala já viu faria o apresentador esperar à toa. Nada é descartado.
+
+**Cor conferida, não chutada.** Sete papéis foscos na mesma faixa de luminância, para a parede
+ler como uma coisa só em vez de virar confete, com contraste medido entre 9,0:1 e 11,4:1
+contra a tinta, acima do AAA da WCAG. As cores são distribuídas com passo 3 sobre 7 papéis,
+senão a grade forma listra diagonal.
+
+O ritmo tem um botão só, `@MIRA:VELOCIDADE N/10`, que rege a cadência e a duração da entrada
+juntas. O padrão é 6/10: uma página cheia revela em cerca de 4 segundos.
+
 ## 0.1.62
 
 ### Adicionado
