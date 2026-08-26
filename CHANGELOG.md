@@ -4,6 +4,33 @@ Mudanças de cada versão do `mira-animator`, em linguagem de quem usa.
 
 O histórico começa na 0.1.51. Para o que veio antes, veja o `git log`.
 
+## 0.1.64
+
+### Mudado
+
+**Metáfora primeiro virou a primeira regra do `/mira-animator`.** A REGRA ZERO agora abre
+com o princípio: diante de qualquer conceito, a primeira pergunta é "qual é a melhor maneira
+visual de fazer alguém compreender esta ideia?", nunca "como animar isso". A animação nasce
+da representação escolhida; escolher elementos gráficos primeiro e dar significado depois é
+o método invertido.
+
+**Refinamento sob demanda, por slide.** A primeira entrega segue rápida (A/B, uma metáfora
+boa por slide). Depois de ver o resultado, o autor pode pedir refinamento de um slide
+específico: só ali a exploração pesada é liberada (várias candidatas, comparação, mais
+originalidade). Slide aprovado não regenera.
+
+**Espaço vazio é defeito de composição.** A cena ocupa a faixa livre inteira do quadro; o
+que a ação não usa é preenchido com cenário ambiente da própria metáfora (o lugar onde a
+cena acontece: parede, luz, fumaça, prateleira), parado ou em deriva lenta, nunca focal.
+
+**O padrão vale em todos os formatos.** As três regras foram propagadas para o
+`/mira-squared` (1:1), `/mira-vertical` (9:16), `/mira-thirds`, `/mira-sequence` (só a
+régua de composição: lá a metáfora é herdada por definição), `/mira-studio` e
+`/mira-studio-full` (nas animações autorais; as declarativas `linha`/`orbita` continuam).
+
+**Letterbox preto.** A faixa fora do quadro é `#000000` em todos os templates e na
+documentação (era cinza `#333`). A coluna do `/mira-thirds` segue cinza de propósito.
+
 ## 0.1.63
 
 ### Adicionado

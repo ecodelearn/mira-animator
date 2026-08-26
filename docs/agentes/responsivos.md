@@ -3,7 +3,7 @@
 Square, vertical and rule-of-thirds versions of a deck, plus the 9:16 and 16:9 recording studios.
 
 ## `/mira-squared`
-Generates a **square** (1:1) version of a deck from the 16:9 original, or creates square slides from scratch. Each content slide keeps only the main title at the top and the animation in a standardized square canvas below; the animation's axis is **reworked per metaphor to fill the square** (no black bars), the title auto-shrinks to two lines, and each animation's `viewBox` is matched to the square. The square's side equals the 16:9 height (`100vh`), centered, with **gray #333 side margins**. Writes a new `index-1x1.html` next to the original. For Instagram feed, LinkedIn, etc.
+Generates a **square** (1:1) version of a deck from the 16:9 original, or creates square slides from scratch. Each content slide keeps only the main title at the top and the animation in a standardized square canvas below; the animation's axis is **reworked per metaphor to fill the square** (no black bars), the title auto-shrinks to two lines, and each animation's `viewBox` is matched to the square. The square's side equals the 16:9 height (`100vh`), centered, with **black #000 side margins**. Writes a new `index-1x1.html` next to the original. For Instagram feed, LinkedIn, etc.
 
 ## `/mira-vertical`
 Generates a **vertical** (9:16) version. Each content slide keeps only the main title at the top and a tall, standardized animation canvas below; the title auto-shrinks to fit at most two lines, and each animation's axis is reworked for portrait (horizontal flow becomes vertical, side-by-side comparison becomes stacked). Writes `index-9x16.html`. For Reels, Shorts, TikTok, Stories.

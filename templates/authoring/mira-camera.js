@@ -34,7 +34,7 @@
             '.cam-area .cam-video { width: 100%; height: 100%; object-fit: cover; display: block; }',
             /* espelhamento estilo selfie (padrão ligado; tecla C alterna) */
             'body.cam-mirror .cam-video { transform: scaleX(-1); }',
-            /* aviso discreto FORA da área de câmera (canto da margem #333), some sozinho */
+            /* aviso discreto FORA da área de câmera (canto da margem #000), some sozinho */
             '.cam-notice { position: fixed; top: 14px; left: 14px; z-index: 2147483000;',
             '  max-width: 300px; padding: 10px 14px; border-radius: 10px;',
             '  background: rgba(13, 13, 15, .94); color: #f4f4f5;',

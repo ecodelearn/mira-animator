@@ -11,7 +11,7 @@
     <style>
         :root {
             /* 16:9 casado à janela: em tela cheia 1080p fecha exatos 1920x1080;
-               em janela menor encolhe mantendo a proporção (letterbox #333) */
+               em janela menor encolhe mantendo a proporção (letterbox #000) */
             --fmt-w: min(100vw, calc(100vh * 16 / 9));
             --fmt-h: min(100vh, calc(100vw * 9 / 16));
         }
@@ -55,14 +55,14 @@
             --line: var(--mira-card-border);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { background: #333333; scroll-behavior: smooth; scroll-snap-type: y proximity; }
+        html { background: #000000; scroll-behavior: smooth; scroll-snap-type: y proximity; }
         /* sem barras de rolagem: a coluna 16:9 cobre a janela (a barra vertical
            roubava largura e criava scroll horizontal em F11); navegue por
            teclado ou roda do mouse */
         html { scrollbar-width: none; overflow-x: hidden; }
         html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
         body {
-            background: #333333;
+            background: #000000;
             color: var(--ink);
             font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
             -webkit-font-smoothing: antialiased;
@@ -76,7 +76,7 @@
             height: var(--fmt-h);
             min-height: var(--fmt-h);
             /* centraliza o quadro na janela: em tela que não é 16:9 a sobra
-               vertical vira faixa #333 acima e abaixo, nunca o slide seguinte */
+               vertical vira faixa #000 acima e abaixo, nunca o slide seguinte */
             margin: calc((100vh - var(--fmt-h)) / 2) 0;
             scroll-margin-top: calc((100vh - var(--fmt-h)) / 2);
             overflow: hidden;

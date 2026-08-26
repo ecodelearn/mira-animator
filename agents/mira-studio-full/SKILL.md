@@ -37,7 +37,7 @@ Cria decks horizontais 16:9 full-hd para gravação de videoaula em que o aprese
 
 ## O resultado, em uma frase
 
-Um quadro 16:9 cravado à janela (letterbox `#333333` quando a tela não é 16:9) chamado `index-16x9.html`, onde cada `body > section` declara `data-layout="camera|thirds|full"`, os slides NASCEM do `roteiro.md` (layout, título e animação `linha:`/`orbita:` por cabeçalho; texto da fala sincronizando ao vivo), a webcam entra ao vivo pelas `.cam-area` (`mira/mira-camera.js`), o teleprompter em overlay fica FORA do vídeo via Element Capture, e a tecla **R** grava um MP4 1920x1080 direto no disco pelo `mira/mira-record-16x9.js`, sem OBS.
+Um quadro 16:9 cravado à janela (letterbox `#000000` quando a tela não é 16:9) chamado `index-16x9.html`, onde cada `body > section` declara `data-layout="camera|thirds|full"`, os slides NASCEM do `roteiro.md` (layout, título e animação `linha:`/`orbita:` por cabeçalho; texto da fala sincronizando ao vivo), a webcam entra ao vivo pelas `.cam-area` (`mira/mira-camera.js`), o teleprompter em overlay fica FORA do vídeo via Element Capture, e a tecla **R** grava um MP4 1920x1080 direto no disco pelo `mira/mira-record-16x9.js`, sem OBS.
 
 ## Diferenças para o /mira-studio (não confunda)
 
@@ -57,7 +57,7 @@ Pedido de vertical/Reels/Shorts dentro desta skill: aponte para `/mira-studio`.
 
 O quadro é 16:9 cravado e generalista para a tela: `--fmt-w: min(100vw, calc(100vh * 16 / 9))` e `--fmt-h: min(100vh, calc(100vw * 9 / 16))`. Em tela cheia num display 1080p fecha exatos 1920x1080; em janela menor encolhe mantendo a proporção. Regras que acompanham (todas no deck de referência):
 
-- `body > section` com `margin: calc((100vh - var(--fmt-h)) / 2) 0` e `scroll-margin-top` igual: a sobra vertical vira faixa `#333` acima e abaixo, nunca o slide seguinte.
+- `body > section` com `margin: calc((100vh - var(--fmt-h)) / 2) 0` e `scroll-margin-top` igual: a sobra vertical vira faixa `#000` acima e abaixo, nunca o slide seguinte.
 - `html` com `scroll-snap-type: y proximity`, `scrollbar-width: none` e `overflow-x: hidden`: a barra de rolagem roubava largura e criava scroll horizontal em F11. Navegação por teclado ou roda do mouse.
 - `body > section { isolation: isolate }` é PRÉ-REQUISITO do Element Capture: sem stacking context o Chrome aceita o `restrictTo` e não emite frame nenhum (o MP4 sai vazio).
 - `thirds`: `.thirds-main` com `width: 66.667%`, `padding: 50px` (área segura onde título e animação vivem), `h2` centrado no topo; `.cam-area` com `width: 33.333%` e `border-left: 1px solid var(--line)`.
@@ -106,7 +106,7 @@ Os dois geradores estão no deck de referência; copie-os como estão. Regras qu
 - `casarPalco` (viewBox casado ao box real do palco) + `fitOnce` sobre a parte ESTÁTICA, uma vez (reenquadrar a cada frame faz o palco reescalar junto com o que se move).
 - Todo callback de `d3.timer` dentro de `try/catch`: uma exceção congela a fila inteira de timers do d3.
 - Texto SVG: `font-size >= 24` para `W = 960`; cor da marca `#FF904D` via variáveis do tema; sem arco-íris.
-- Animação AUTORAL além das duas: permitida, presa ao palco `svg#sv-slide-N` (N = posição do slide no arquivo), seguindo as mesmas regras. Palco sem animação fica vazio em vez de quebrar.
+- Animação AUTORAL além das duas: permitida, presa ao palco `svg#sv-slide-N` (N = posição do slide no arquivo), seguindo as mesmas regras e o padrão criativo do `agents/mira-animator/SKILL.md`: metáfora primeiro, animação depois (método A/B antes de codar), refinamento sob demanda por slide, e espaço vazio preenchido com cenário ambiente da própria metáfora (parado ou em deriva lenta, nunca focal). As declarativas `linha`/`orbita` continuam como estão, mas devem preencher o palco. Palco sem animação fica vazio em vez de quebrar.
 
 ## Teleprompter que não entra no vídeo
 
@@ -173,7 +173,7 @@ Setas/espaço navegam · **T** painel do roteiro · **O** overlay de leitura · 
 
 - **Aberto em `file://`:** sem `getUserMedia` e sem sincronização do roteiro; áreas de câmera em verde chroma `#00FF00` puro com aviso fora da área; o deck sobe com os slides embutidos, navegável.
 - **Permissão negada / sem webcam:** mesmo fallback verde; aviso específico.
-- **Tela que não é 16:9 (ultrawide, 16:10):** letterbox `#333` acima e abaixo (ou nas laterais), quadro sempre proporcional, slide seguinte nunca vaza.
+- **Tela que não é 16:9 (ultrawide, 16:10):** letterbox `#000` acima e abaixo (ou nas laterais), quadro sempre proporcional, slide seguinte nunca vaza.
 - **Webcam 16:9 num terço vertical:** `object-fit: cover` corta as sobras, nunca distorce.
 - **Título longo no `thirds`:** `fitTitles` reduz até 2 linhas (mínimo 18px).
 - **Roteiro com mais/menos slides que o HTML embutido:** o `roteiro.md` manda; o mapeamento por ordem de aparição nunca desloca textos.

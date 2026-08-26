@@ -28,7 +28,7 @@ Diga isso na entrega, não deixe implícito.
 1. **Entrada coreografada.** A regra zero manda toda animação entrar com coreografia. O slide de continuação **não entra**: ele já está em cena. Fade, stagger, escala 0, `data-aos`, tudo proibido nos atores herdados. A entrada já aconteceu no slide de origem.
 2. **Método A/B da metáfora.** Não roda. A metáfora já foi eleita no slide de origem e continuar é o objetivo.
 
-**O que continua valendo sem exceção:** loop interno perpétuo na continuação, temperamento e beat sheet, cor do tema, anti-vazamento, idioma pt-br, sem travessão.
+**O que continua valendo sem exceção:** loop interno perpétuo na continuação, temperamento e beat sheet, cor do tema, anti-vazamento, idioma pt-br, sem travessão. E a régua de composição do mira-animator: a cena preenche a faixa livre inteira, espaço vazio é defeito, e o que a ação não usa vira cenário ambiente da própria metáfora (parado ou em deriva lenta, nunca focal).
 
 ## Entradas
 

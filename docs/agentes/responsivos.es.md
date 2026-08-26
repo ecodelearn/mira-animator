@@ -3,7 +3,7 @@
 Versiones cuadrada, vertical y en la regla de los tercios de un deck, más los estudios de grabación 9:16 y 16:9.
 
 ## `/mira-squared`
-Genera una versión **cuadrada** (1:1) de un deck a partir del original 16:9, o crea slides cuadrados desde cero. Cada slide de contenido queda solo con el título arriba y la animación en un canvas cuadrado estandarizado debajo; el eje de cada animación se **reformula por metáfora para llenar el cuadrado** (sin franja negra), el título se encoge a 2 líneas y el `viewBox` se ajusta al cuadrado. El lado del cuadrado es la altura del 16:9 (`100vh`), centrado, con **márgenes laterales en gris #333**. Escribe un nuevo `index-1x1.html` al lado del original. Para feed de Instagram, LinkedIn, etc.
+Genera una versión **cuadrada** (1:1) de un deck a partir del original 16:9, o crea slides cuadrados desde cero. Cada slide de contenido queda solo con el título arriba y la animación en un canvas cuadrado estandarizado debajo; el eje de cada animación se **reformula por metáfora para llenar el cuadrado** (sin franja negra), el título se encoge a 2 líneas y el `viewBox` se ajusta al cuadrado. El lado del cuadrado es la altura del 16:9 (`100vh`), centrado, con **márgenes laterales en negro #000**. Escribe un nuevo `index-1x1.html` al lado del original. Para feed de Instagram, LinkedIn, etc.
 
 ## `/mira-vertical`
 Genera una versión **vertical** (9:16). Cada slide de contenido queda solo con el título principal arriba y una animación en un canvas alto y estandarizado debajo; el título se encoge solo para caber en máximo 2 líneas, y el eje de cada animación se reformula para el retrato (flujo horizontal pasa a vertical, comparación lado a lado pasa a apilada). Escribe `index-9x16.html`. Para Reels, Shorts, TikTok, Stories.

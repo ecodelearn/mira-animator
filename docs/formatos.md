@@ -20,7 +20,7 @@ A **1:1 (1080×1080)** version, for the Instagram feed, LinkedIn, and other squa
 
 ## Vertical — `/mira-vertical`
 
-A **9:16 (1080×1920)** version, for Reels, Shorts, TikTok and Stories. Each content slide is reduced to just the main title at the top and a tall, standardized animation canvas below — subtitle, card header and footer pills are dropped, and the title auto-shrinks to fit at most two lines. The key move: each animation's **axis is reworked for portrait** (a horizontal flow becomes vertical, a wide ellipse becomes tall, a side-by-side comparison becomes stacked). Text, colors, timings and the loop stay intact — only position, axis and viewBox height change. Outside the column the background is `#333333`.
+A **9:16 (1080×1920)** version, for Reels, Shorts, TikTok and Stories. Each content slide is reduced to just the main title at the top and a tall, standardized animation canvas below — subtitle, card header and footer pills are dropped, and the title auto-shrinks to fit at most two lines. The key move: each animation's **axis is reworked for portrait** (a horizontal flow becomes vertical, a wide ellipse becomes tall, a side-by-side comparison becomes stacked). Text, colors, timings and the loop stay intact — only position, axis and viewBox height change. Outside the column the background is `#000000`.
 
 → `index-9x16.html`
 

@@ -34,7 +34,7 @@ Cria decks verticais 9:16 para gravação de vídeo (Reels, Shorts, TikTok, vide
 
 ## O resultado, em uma frase
 
-Uma coluna 9:16 central (laterais `#333333`) onde cada slide de CONTEÚDO (`body > section`) declara `data-layout="camera|split|full"` (capa e encerramento, sem `data-layout`, mantêm layout próprio): nas áreas `.cam-area` o módulo `mira/mira-camera.js` injeta o feed da webcam ao vivo (`object-fit: cover`, espelhado estilo selfie), nas áreas de animação valem as regras congeladas das skills irmãs, e o deck inteiro está pronto para o OBS capturar a janela sem chroma key.
+Uma coluna 9:16 central (laterais `#000000`) onde cada slide de CONTEÚDO (`body > section`) declara `data-layout="camera|split|full"` (capa e encerramento, sem `data-layout`, mantêm layout próprio): nas áreas `.cam-area` o módulo `mira/mira-camera.js` injeta o feed da webcam ao vivo (`object-fit: cover`, espelhado estilo selfie), nas áreas de animação valem as regras congeladas das skills irmãs, e o deck inteiro está pronto para o OBS capturar a janela sem chroma key.
 
 ## Fluxo conversacional (como o usuário monta o deck)
 
@@ -55,6 +55,7 @@ O quadro é **9:16 cravado e generalista para a tela**: `--fmt-w: calc(100vh * 9
 - **Área de animação do `split`:** é um quadrado (`aspect-ratio: 1/1`, lado = largura da coluna) com área segura proporcional de `4.63%` (50/1080), título dentro no topo e animação preenchendo o resto com `casarPalco` + `fitToArea` (código canônico em `agents/mira-squared/SKILL.md`). Vale o CRITÉRIO Nº 1: a animação preenche a maior parte do quadrado.
 - **Slide `full`:** título no topo (máx. 2 linhas, IIFE `fitTitles`), palco ocupando todo o resto, metáfora com eixo vertical, `casarPalco` + `fitToArea` (playbook de composição em `agents/mira-vertical/SKILL.md`).
 - **Regra Zero:** toda animação tem loop interno infinito com generation counter (`window.__slugGen`).
+- **Padrão criativo do `agents/mira-animator/SKILL.md`:** metáfora primeiro, animação depois (método A/B antes de codar), refinamento sob demanda por slide, e espaço vazio é defeito de composição: o que a ação não usa vira cenário ambiente da própria metáfora (parado ou em deriva lenta, nunca focal).
 - **Idioma:** `agents/_shared/idioma.md`. Proibido travessão; acentuação correta.
 - **Fonte mínima:** nenhum texto renderiza abaixo de 13px (SVG: `font-size >= 24` para `W = 960`).
 - **Cor:** laranja da marca `#FF904D`; sem arco-íris.
@@ -186,8 +187,8 @@ Sem GPU dedicada o launcher é inócuo (a flag aponta para a única GPU); o deck
     --sz-bottom: 40.74%; /* 440/1080 — legenda, handle, ticker de áudio */
     --sz-left: 5.56%;    /*  60/1080 — margem */
   }
-  html { background: #333333; }
-  body { background: #333333; display: flex; flex-direction: column; align-items: center; }
+  html { background: #000000; }
+  body { background: #000000; display: flex; flex-direction: column; align-items: center; }
   body > section {
     position: relative;
     width: var(--fmt-w); height: var(--fmt-h); min-height: var(--fmt-h);
@@ -286,7 +287,7 @@ Os dois blocos estão no deck de referência; detalhes e regras completas em `ag
 
 - [ ] Transição dissolve aplicada no `index.html` (bloco `=== DISSOLVE` + `dissolve()` na navegação; UI fixa com `view-transition-name`, inclusive `#mira-prompter` e `#tp-ov-wrap`).
 - [ ] Durante recording, navegação instantânea sem `startViewTransition` e evento `mira-navigation` emitido antes do salto.
-- [ ] Coluna `calc(100vh * 9/16)` x `100vh`, laterais `#333333`, centralizada via flex.
+- [ ] Coluna `calc(100vh * 9/16)` x `100vh`, laterais `#000000`, centralizada via flex.
 - [ ] `mira/` com os 5 módulos e tags na ordem certa antes de `</body>`.
 - [ ] `assets/vendor/mp4-muxer.js` presente (encoders do painel), `mira-studio-windows.bat` na raiz e `mira/mira-studio-server.cjs` (launcher + inventário real de GPUs).
 - [ ] Painel separa inventário de GPUs, renderer ativo e preferência do encoder; diagnóstico JSON disponível ao final.
