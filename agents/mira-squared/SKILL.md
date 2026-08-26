@@ -5,7 +5,7 @@ description: >-
   cria slides quadrados do zero quando não há deck de origem, para vídeo quadrado
   (feed do Instagram, LinkedIn, etc.). Não toca no original: cria index-1x1.html
   ao lado. Cada slide de conteúdo vira só o título no topo + a animação num canvas
-  quadrado (lado = altura do 16:9, 100vh; laterais em #333), com o eixo reformulado
+  quadrado (lado = altura do 16:9, 100vh; laterais em #000), com o eixo reformulado
   por metáfora para preencher o quadrado. Texto, cores, timings e loop intactos.
   Use SEMPRE que o usuário disser /mira-squared,
   versão quadrada, deixa quadrado, formato 1:1, 1080x1080, apresentação quadrada,
@@ -24,11 +24,11 @@ Transforma um deck 16:9 do Mira numa versão **quadrada**, para gravar como víd
 
 ## O resultado, em uma frase
 
-Num slide de conteúdo aparecem **apenas duas coisas, ambas DENTRO da área segura de 50px do quadro**: o **título principal no topo da área segura** (1 ou 2 linhas, nunca mais) e a **animação grande preenchendo todo o resto da área segura** logo abaixo. **Somem:** o subtítulo, o header do card (ícone + label + botão Replay) e a base do card (legenda uppercase + grade de pílulas). As laterais fora do quadrado ficam **#333333**. Capa e encerramento (que não têm `.glass-card`) mantêm o layout próprio.
+Num slide de conteúdo aparecem **apenas duas coisas, ambas DENTRO da área segura de 50px do quadro**: o **título principal no topo da área segura** (1 ou 2 linhas, nunca mais) e a **animação grande preenchendo todo o resto da área segura** logo abaixo. **Somem:** o subtítulo, o header do card (ícone + label + botão Replay) e a base do card (legenda uppercase + grade de pílulas). As laterais fora do quadrado ficam **#000000**. Capa e encerramento (que não têm `.glass-card`) mantêm o layout próprio.
 
 ## CRITÉRIO Nº 1 (prioridade do usuário)
 
-A animação tem que **preencher a maior parte do quadrado**. Preencher bem o box vale mais que a perfeição do reflow por metáfora. Nunca é aceitável a animação ocupar só uma faixa fina com área vazia (ou preta) em volta. Antes de entregar, olhe cada slide: se sobra muita área vazia, refaça.
+A animação tem que **preencher a maior parte do quadrado**. Preencher bem o box vale mais que a perfeição do reflow por metáfora. Nunca é aceitável a animação ocupar só uma faixa fina com área vazia (ou preta) em volta. Antes de entregar, olhe cada slide: se sobra muita área vazia, refaça. Vale o padrão do mira-animator: espaço vazio é defeito de composição; na criação nativa, o que a escala não resolver vira cenário ambiente da própria metáfora (parado ou em deriva lenta, nunca focal).
 
 ## ÁREA SEGURA: 50px medidos do QUADRO, com título E animação dentro
 
@@ -72,7 +72,7 @@ Vale para QUALQUER metáfora (grafo, fluxo, orbital, partículas): componha livr
 
 ## Dimensão (erro mais comum)
 
-O quadrado é **generalista para a tela atual**, não um tamanho fixo em pixels: o **lado é a altura cheia da tela** (`100vh`), a mesma do 16:9. Numa tela 1080p dá 1080x1080; em outra, escala junto. É a **coluna central** centralizada na horizontal, com sobra dos dois lados em #333333. Fixar 1080x1080 prenderia o resultado a uma única resolução.
+O quadrado é **generalista para a tela atual**, não um tamanho fixo em pixels: o **lado é a altura cheia da tela** (`100vh`), a mesma do 16:9. Numa tela 1080p dá 1080x1080; em outra, escala junto. É a **coluna central** centralizada na horizontal, com sobra dos dois lados em #000000. Fixar 1080x1080 prenderia o resultado a uma única resolução.
 
 Não é moldura fixa que só centraliza (a versão antiga fazia isso, deixando o `<svg>` 16:9 com faixa preta acima e abaixo). Aqui o QUADRO é o slide inteiro, o palco ocupa toda a área segura abaixo do título e a geometria de cada animação é **reformulada no JS da cópia** para preencher.
 
@@ -80,7 +80,7 @@ Não é moldura fixa que só centraliza (a versão antiga fazia isso, deixando o
 
 Quando não houver deck 16:9 de origem, ou o usuário pedir "cria um slide quadrado sobre X", NÃO crie um 16:9 intermediário para converter depois. A animação nasce pensada para o quadrado:
 
-1. **Herde as regras criativas do `agents/mira-animator/SKILL.md`:** Regra Zero (loop interno obrigatório), liberdade criativa de metáfora, regra de idioma, regra de título (sem ícone, máximo 6 palavras), estrutura do card com glass-card. Manter a estrutura do glass-card é o que deixa o mesmo CSS desta skill esconder header/base e exibir só título + animação.
+1. **Herde as regras criativas do `agents/mira-animator/SKILL.md`:** metáfora primeiro, animação depois (método A/B antes de codar), Regra Zero (metáfora + história + loop interno obrigatório), refinamento sob demanda por slide, regra de idioma, regra de título (sem ícone, máximo 6 palavras), estrutura do card com glass-card. Manter a estrutura do glass-card é o que deixa o mesmo CSS desta skill esconder header/base e exibir só título + animação.
 2. **Geometria nativa desde a concepção:** o arquivo já nasce como `index-1x1.html` (na pasta do deck novo), com o bloco `<style id="mira-formato-1x1">` desta skill no head, área segura de 50px no quadro e `viewBox` inicial quadrado (`W = 960`, `H = 960`) casado em runtime pelo `casarPalco`.
 3. **Metáfora escolhida JÁ para o quadrado:** metáforas radiais/centradas (orbital, hub-and-spoke, pulso central, grade 2x2) rendem mais no quadrado que fileiras largas. O assunto ocupa a maior parte do palco, centralizado.
 4. Se o deck quadrado (`index-1x1.html`) já existir, o slide novo é adicionado nele, no padrão dos demais.
@@ -169,7 +169,7 @@ Aplique conforme a metáfora do slide, sempre visando o CRITÉRIO Nº 1. O princ
 
 1. **Localizar o deck.** Ache o `index.html` do deck (em `decks/<deck>/` ou `decks/<tema>/`). Se houver mais de um deck e o usuário não disser qual, pergunte. Se faltar `index.html`, ou ele não tiver `.glass-card` / `.anim-stage` / `<svg id="sv-...">`, **aborte com mensagem clara** sem criar arquivo parcial.
 2. **Copiar para o novo arquivo.** Copie `index.html` para `index-1x1.html` na mesma pasta (caminhos relativos de logo, vídeo e imagens continuam válidos). O `index.html` fica byte a byte igual.
-3. **Injetar a moldura + composição.** Logo antes de `</head>` do `index-1x1.html`, como último bloco de estilo (depois do Tailwind, para vencer a especificidade), insira o bloco `<style id="mira-formato-1x1">` canônico (abaixo): quadrado 100vh, fundo #333333 fora da coluna, composição só título + animação, canvas quadrado 1/1.
+3. **Injetar a moldura + composição.** Logo antes de `</head>` do `index-1x1.html`, como último bloco de estilo (depois do Tailwind, para vencer a especificidade), insira o bloco `<style id="mira-formato-1x1">` canônico (abaixo): quadrado 100vh, fundo #000000 fora da coluna, composição só título + animação, canvas quadrado 1/1.
 4. **Injetar o script de auto-ajuste de título.** Adicione o IIFE `fitTitles` (acima) no bloco de scripts, antes de `lucide.createIcons()`.
 5. **Reformular cada animação no JS.** Para cada slide de conteúdo: autore o `H` inicial do `viewBox` como `H = W` (mantendo `minX`, `minY`, `W`), injete `casarPalco` (chamado na 1ª linha de cada build/replay; re-casado em resize e `document.fonts.ready`) e aplique o reflow do eixo com `fitToArea` preenchendo a área segura (playbook). Preserve textos, cores, easing, durações, loop e `generation counter`.
 6. **Verificar o encaixe (CRITÉRIO Nº 1).** Confira que, no quadrado (lado = 100vh): (a) cada slide de conteúdo mostra só título + animação; (b) o título cabe em no máx. 2 linhas, colado no topo; (c) **a animação preenche a maior parte do quadrado**, sem faixa fina/preta nem distorção; (d) o loop interno ainda roda; (e) capa e encerramento mantêm o layout próprio.
@@ -185,12 +185,12 @@ Aplique conforme a metáfora do slide, sempre visando o CRITÉRIO Nº 1. O princ
     --fmt-w: 100vh;   /* lado do quadrado = altura da tela */
     --fmt-h: 100vh;
   }
-  html { background: #333333; }
+  html { background: #000000; }
   /* Centraliza a coluna na horizontal via flex (não margin:auto: o Preflight
      do Tailwind injeta body{margin:0} em runtime e venceria o margin:auto).
-     Fundo FORA do quadrado (margens laterais) em #333333. */
+     Fundo FORA do quadrado (margens laterais) em #000000. */
   body {
-    background: #333333;
+    background: #000000;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -256,7 +256,7 @@ Aplique conforme a metáfora do slide, sempre visando o CRITÉRIO Nº 1. O princ
 - [ ] `index.html` original intacto (byte a byte).
 - [ ] `index-1x1.html` criado na mesma pasta do deck.
 - [ ] Bloco `<style id="mira-formato-1x1">` canônico injetado antes de `</head>`.
-- [ ] Fundo fora da coluna em #333333; cada `body > section` com largura e altura `100vh`, centralizado via flex (não `margin:auto`).
+- [ ] Fundo fora da coluna em #000000; cada `body > section` com largura e altura `100vh`, centralizado via flex (não `margin:auto`).
 - [ ] Textos, cores, easing, durações, loop interno e generation counter intactos.
 - [ ] Zoom `SZ` do mira-size-animator preservado nos slides que o usam (só com a altura casada).
 - [ ] Capa e encerramento com layout próprio preservado.

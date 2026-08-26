@@ -24,19 +24,19 @@ Transforma um deck 16:9 do Mira numa versão **vertical generalista para a tela 
 
 ## O resultado, em uma frase
 
-Num slide de conteúdo da versão vertical aparecem **apenas duas coisas**: o **título principal colado no topo** (1 ou 2 linhas, nunca mais) e a **animação grande ocupando o canvas alto** logo abaixo, de ponta a ponta na largura da coluna. **Somem:** o subtítulo, o header do card (ícone + label + botão Replay) e a base do card (legenda uppercase + grade de pílulas). As laterais fora da coluna ficam **#333333**. Capa e encerramento (que não têm `.glass-card`) mantêm o layout próprio.
+Num slide de conteúdo da versão vertical aparecem **apenas duas coisas**: o **título principal colado no topo** (1 ou 2 linhas, nunca mais) e a **animação grande ocupando o canvas alto** logo abaixo, de ponta a ponta na largura da coluna. **Somem:** o subtítulo, o header do card (ícone + label + botão Replay) e a base do card (legenda uppercase + grade de pílulas). As laterais fora da coluna ficam **#000000**. Capa e encerramento (que não têm `.glass-card`) mantêm o layout próprio.
 
 ## Criação do zero na geometria nativa
 
 Quando não houver deck 16:9 de origem, ou o usuário pedir "cria um slide vertical sobre X", NÃO crie um 16:9 intermediário para converter depois. A animação nasce pensada para o retrato:
 
-1. **Herde as regras criativas do `agents/mira-animator/SKILL.md`:** Regra Zero (loop interno obrigatório), liberdade criativa de metáfora, regra de idioma, regra de título (sem ícone, máximo 6 palavras), estrutura do card com glass-card. Tudo vale igual. Manter a estrutura do glass-card (header, `.anim-stage`, base de pílulas) é o que deixa o mesmo CSS desta skill esconder header/base e exibir só título + animação.
+1. **Herde as regras criativas do `agents/mira-animator/SKILL.md`:** metáfora primeiro, animação depois (método A/B antes de codar), Regra Zero (metáfora + história + loop interno obrigatório), refinamento sob demanda por slide, regra de idioma, regra de título (sem ícone, máximo 6 palavras), estrutura do card com glass-card. Tudo vale igual. Manter a estrutura do glass-card (header, `.anim-stage`, base de pílulas) é o que deixa o mesmo CSS desta skill esconder header/base e exibir só título + animação.
 2. **Geometria nativa desde a concepção:** o arquivo já nasce como `index-9x16.html` (na pasta do deck novo), com o bloco `<style id="mira-formato-9x16">` desta skill no head, canvas alto padrão (`aspect-ratio: 128 / 203`) e `viewBox` retrato casando (`W = 960`, `H = W * 203 / 128 ≈ 1523`).
 3. **Metáfora escolhida JÁ para o vertical:** o eixo dominante nasce na altura (fluxo desce, comparação empilha, rede espalha na vertical, escada sobe íngreme). Não componha mentalmente em 16:9 para depois girar; o playbook de reflow vira aqui um playbook de composição.
 4. **Mesmos critérios de aprovação do modo conversão:** título no topo em no máximo 2 linhas, assunto ocupando bem a largura útil, nada cortado, REGRA DE FONTE MÍNIMA respeitada.
 5. Se o deck vertical (`index-9x16.html`) já existir, o slide novo é adicionado nele, no padrão dos demais.
 
-**Dimensão (o erro mais comum).** O quadro vertical é **generalista para a tela atual**, não um tamanho fixo em pixels. A **altura é a altura cheia da tela** (`100vh`) e a **largura é a largura da tela dividida por 3** (`calc(100vw / 3)`). Numa tela 1080p isso dá 640x1080; numa tela maior ou menor, escala junto. O quadro vertical é a **coluna central** (um terço da largura) ocupando toda a altura, com sobra dos dois lados como margem em #333333. Por que não 1080x1920 fixo: além de não caber numa tela de 1080 de altura, prenderia o resultado a uma única resolução. (A regra largura/3 dá uma coluna um tiquinho mais larga que o 9:16 cravado. Se a plataforma exigir 9:16 exato, use `--fmt-w: calc(100vh * 9 / 16)`.)
+**Dimensão (o erro mais comum).** O quadro vertical é **generalista para a tela atual**, não um tamanho fixo em pixels. A **altura é a altura cheia da tela** (`100vh`) e a **largura é a largura da tela dividida por 3** (`calc(100vw / 3)`). Numa tela 1080p isso dá 640x1080; numa tela maior ou menor, escala junto. O quadro vertical é a **coluna central** (um terço da largura) ocupando toda a altura, com sobra dos dois lados como margem em #000000. Por que não 1080x1920 fixo: além de não caber numa tela de 1080 de altura, prenderia o resultado a uma única resolução. (A regra largura/3 dá uma coluna um tiquinho mais larga que o 9:16 cravado. Se a plataforma exigir 9:16 exato, use `--fmt-w: calc(100vh * 9 / 16)`.)
 
 A abordagem **não é** moldura fixa que só encolhe: é **reformulação por slide**. Um `viewBox` 16:9 dentro de um quadro estreito e alto encaixa pela largura e ocupa só uma faixa fina, perdendo todo o impacto. Por isso aqui o palco vira **canvas alto** e a geometria de cada animação é **reformulada no JS da cópia** para subir e descer pela altura.
 
@@ -48,7 +48,7 @@ A animação domina a tela e o título é o único texto de apoio. Três coisas 
 
 2. **Título no topo, no máximo 2 linhas.** Colado no topo (não centralizado vertical), nunca em 3 ou 4 linhas. Títulos longos (palavras grandes como "documentação") encolhem sozinhos até caber em 2 linhas, via o script de auto-ajuste. Títulos curtos ficam no tamanho cheio.
 
-3. **Animação vertical e maximizada no canvas alto.** Toda animação cujo eixo dominante era horizontal DEVE ser refeita na vertical (o que ia para o lado passa a ir de cima para baixo; lado a lado vira empilhado). Nada de partícula correndo numa faixa fina, nem blocos lado a lado encolhidos. O canvas é alto (128/203) e o `viewBox` é esticado em altura para casar, sem letterbox e sem distorção.
+3. **Animação vertical e maximizada no canvas alto.** Toda animação cujo eixo dominante era horizontal DEVE ser refeita na vertical (o que ia para o lado passa a ir de cima para baixo; lado a lado vira empilhado). Nada de partícula correndo numa faixa fina, nem blocos lado a lado encolhidos. O canvas é alto (128/203) e o `viewBox` é esticado em altura para casar, sem letterbox e sem distorção. Vale o padrão do mira-animator: espaço vazio é defeito de composição; na criação nativa, o que a escala não resolver vira cenário ambiente da própria metáfora (parado ou em deriva lenta, nunca focal).
 
 ## REGRA DE IDIOMA
 
@@ -195,7 +195,7 @@ O canvas alto padrão é aplicado em todos os slides automaticamente. Estes ajus
 
 1. **Localizar o deck.** Ache o `index.html` do deck (em `decks/<deck>/` ou `decks/<tema>/`). Se houver mais de um deck e o usuário não disser qual, pergunte. Se faltar `index.html`, ou ele não tiver `.glass-card` / `.anim-stage` / `<svg id="sv-...">`, **aborte com mensagem clara** sem criar arquivo parcial.
 2. **Copiar para o novo arquivo.** Copie `index.html` para `index-9x16.html` na mesma pasta (mesma pasta = caminhos relativos de logo, vídeo e imagens continuam válidos). O `index.html` fica byte a byte igual.
-3. **Injetar a moldura + composição.** Logo antes de `</head>` do `index-9x16.html`, como último bloco de estilo (depois do Tailwind, para vencer a especificidade), insira o bloco `<style id="mira-formato-9x16">` canônico (abaixo): quadro 9:16, fundo #333333 fora da coluna, composição só título + animação, título base 7/10, canvas alto 128/203.
+3. **Injetar a moldura + composição.** Logo antes de `</head>` do `index-9x16.html`, como último bloco de estilo (depois do Tailwind, para vencer a especificidade), insira o bloco `<style id="mira-formato-9x16">` canônico (abaixo): quadro 9:16, fundo #000000 fora da coluna, composição só título + animação, título base 7/10, canvas alto 128/203.
 4. **Injetar o script de auto-ajuste de título.** Adicione o IIFE `fitTitles` (acima) no bloco de scripts, antes de `lucide.createIcons()`.
 5. **Reformular cada animação no JS.** Para cada slide de conteúdo: aplique o reflow do eixo para o retrato (playbook) e estique o `H` do `viewBox` para casar com 128/203 (`H = W * 203 / 128`), mantendo `minX`, `minY`, `W`. Preserve textos, cores, easing, durações, loop e `generation counter`. Se o slide usa o zoom `SZ` do `mira-size-animator`, mantenha a fórmula, só com a altura casada.
 6. **Verificar o encaixe.** Confira mentalmente que, na coluna vertical (1/3 da largura da tela, altura cheia): (a) cada slide de conteúdo mostra só título + animação; (b) o título cabe em no máx. 2 linhas, colado no topo; (c) a animação é vertical e preenche o canvas alto, sem distorção nem letterbox; (d) o loop interno ainda roda; (e) capa e encerramento mantêm o layout próprio. Caso a caso, aplique as ferramentas por slide (esticar para baixo / ampliar X%).
@@ -212,12 +212,12 @@ O canvas alto padrão é aplicado em todos os slides automaticamente. Estes ajus
     --fmt-w: calc(100vw / 3);  /* use calc(100vh * 9 / 16) se precisar de 9:16 cravado */
     --fmt-h: 100vh;
   }
-  html { background: #333333; }
+  html { background: #000000; }
   /* Centraliza a coluna na horizontal via flex (não margin:auto: o Preflight
      do Tailwind injeta body{margin:0} em runtime e venceria o margin:auto).
-     Fundo FORA do slide (margens laterais) em #333333; a coluna do slide fica no fundo do tema. */
+     Fundo FORA do slide (margens laterais) em #000000; a coluna do slide fica no fundo do tema. */
   body {
-    background: #333333;
+    background: #000000;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -280,7 +280,7 @@ O canvas alto padrão é aplicado em todos os slides automaticamente. Estes ajus
 - [ ] `index.html` original intacto (byte a byte).
 - [ ] `index-9x16.html` criado na mesma pasta do deck.
 - [ ] Bloco `<style id="mira-formato-9x16">` canônico injetado antes de `</head>`.
-- [ ] Fundo fora da coluna em #333333; cada `body > section` com largura `calc(100vw / 3)` e altura `100vh`, centralizado via flex (não `margin:auto`).
+- [ ] Fundo fora da coluna em #000000; cada `body > section` com largura `calc(100vw / 3)` e altura `100vh`, centralizado via flex (não `margin:auto`).
 - [ ] Geometria do conteúdo de cada animação preservada (só a altura do viewBox mudou); textos, cores, easing, durações, loop interno e generation counter intactos.
 - [ ] Zoom `SZ` do mira-size-animator preservado nos slides que o usam (só com a altura casada).
 - [ ] Ferramentas por slide aplicadas onde fazia sentido (esticar para baixo no miolo vazio; ampliar X% onde pedido), sem cortar pontas.

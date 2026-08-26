@@ -10,6 +10,8 @@ MIRA é **Metáforas Inteligentes Responsivas Animadas**. A metáfora não é um
 
 ## REGRA ZERO
 
+**METÁFORA PRIMEIRO. ANIMAÇÃO DEPOIS.** Diante de qualquer conceito, texto, PDF ou pedido de slide, a primeira pergunta é "qual é a melhor maneira visual de fazer alguém compreender esta ideia?", nunca "como animar isso". A pergunta certa não é "que objeto representa esta palavra?", é "que transformação, comportamento ou situação visual permite compreender este conceito?". A animação é consequência da representação escolhida; escolher elementos gráficos primeiro e tentar dar significado depois é o método invertido.
+
 Toda animação DEVE ser **uma metáfora**, DEVE ser **uma história** e DEVE ter **loop interno perpétuo**.
 
 - **Metáfora:** analogia concreta do cotidiano, nunca o diagrama do próprio conceito.
@@ -85,6 +87,15 @@ Escopo de um slide só: rode o método normal. Escopo do deck todo (caso comum d
 **Passada 2, slide a slide**, com os passos 4, 7 e 8 sobre a metáfora eleita (contrafactual, história, loop), depois beat sheet, rubrica e código.
 
 Reprovou na passada 2? Use a candidata perdedora do A/B daquele slide, se for de família livre, ou gere uma substituta dentro da família atribuída. O quadro segue válido; só reapresente se a própria família mudar. **Acima de 4 slides, apresente o quadro ao usuário antes de codar**: vetar ali é barato, depois de implementado é caro.
+
+## Refinamento sob demanda
+
+A primeira entrega é sempre a geração normal: A/B, portões, uma metáfora boa por slide, sem exploração extra. A exploração pesada só existe **depois**, quando o usuário vê o resultado e pede refinamento ("outra metáfora", "menos óbvia", "mais impacto", "simplifica", "troca a ideia").
+
+- **Escopo por slide.** Refinar o slide 6 não regenera os outros. Slide aprovado fica intacto, e o quadro de metáforas do deck segue válido para ele.
+- **Trava de exploração liberada, só aqui.** No refinamento vale gerar várias candidatas de famílias diferentes, comparar nos portões e buscar mais originalidade ou outra narrativa visual. O limite "A/B e só" é da primeira geração, não do refinamento.
+- **Ledger e rubrica continuam valendo.** A metáfora nova não pode colidir com os vizinhos aprovados, e o corte segue 85 sem veto.
+- **Rejeição troca a analogia**, nunca pole a animação (regra do método: descarte a família e traga outra).
 
 ## Ledger de diversidade
 
@@ -252,7 +263,7 @@ Capa e encerramento trocam `.slide-main` por `.slide-centro` (texto centrado, se
 
 - **O palco é o QUADRO INTEIRO.** `.anim-stage` é `position: absolute; inset: 0` e cobre a `<section>` de borda a borda, por baixo do título. Não é mais "o que sobra depois do título". Case o `viewBox` com a caixa real (`getBoundingClientRect`) em vez de fixar `0 0 1280 720`, senão o desenho estica quando a altura do slide muda.
 - **O título flutua por cima, e a animação desvia dele.** O `palco()` mede o título e devolve a faixa livre: `F.topo`, `F.alturaUtil` e `F.vy(k)`. **Use `F.vy(k)` no lugar de `F.H * k`** em toda coordenada vertical. Nada FOCAL acima de `F.topo`; ambiente pode atravessar, porque atrás do título lê como profundidade, não como conflito.
-- **Componha para preencher o quadro**, agora que ele é seu por inteiro.
+- **Componha para preencher o quadro, e a régua é dura:** a cena ocupa a faixa livre inteira (`F.alturaUtil`), não uma tira no rodapé. Faixa vazia entre o título e a animação é defeito de composição, não estilo. Dimensione os atores pela altura útil e preencha o que sobrar com cenário e ambiente da própria metáfora (o lugar onde a cena acontece: parede, luz, fumaça, prateleira), nunca com enfeite aleatório. Cenário é ambiente, não foco: entra parado ou em deriva lenta e não disputa com a ação.
 - **Os 50px de padding do `.slide-main` são área segura das bordas.** Nada essencial encosta na borda.
 - **UMA cor de marca dominante**, lida de `--mira-primary` / `--mira-accent-2`. Sem arco-íris.
 - **Camada cinematográfica: só se o deck pediu.** Ver a seção abaixo.
@@ -464,7 +475,7 @@ A cena já foi decidida na beat sheet. Aqui você só escolhe com que stack dese
 8. **Esqueleto de `mira-templates/decks/`** como referência estrutural, CSS do stage no `<style>` e HTML do card dentro do `<main>` (modo CRIAR), ou localizar o stage e reescrever só a função (modo SUBSTITUIR).
 9. **Função JS** com reset (clearInterval + `selectAll('*').remove()`), geração anti-vazamento, entrada coreografada com stagger e loop interno contínuo.
 10. **Trigger** registrado em `setupAnimationTriggers()`, ou conferido se já existia.
-11. **Reportar** slide a slide: `conceito → metáfora (loop em uma frase)`, mais a assinatura do ledger.
+11. **Reportar** slide a slide: `conceito → metáfora (loop em uma frase)`, mais a assinatura do ledger. Refinamento depois da entrega é por slide (seção "Refinamento sob demanda").
 
 Você implementa direto, sem pedir aprovação prévia, quando o usuário já deu contexto suficiente. A exceção é o quadro de metáforas acima de 4 slides.
 

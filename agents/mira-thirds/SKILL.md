@@ -41,7 +41,7 @@ Num slide de conteúdo, nos **2/3 da esquerda**: o **título no topo** (1 ou 2 l
 
 ## CRITÉRIO Nº 1
 
-A animação tem que preencher a maior parte do box dos 2/3; isso vale mais que a perfeição do reflow por metáfora. Nunca aceite a animação como faixa fina com área vazia (ou preta) em volta. Antes de entregar, cheque cada slide: se sobra muita área vazia, refaça.
+A animação tem que preencher a maior parte do box dos 2/3; isso vale mais que a perfeição do reflow por metáfora. Nunca aceite a animação como faixa fina com área vazia (ou preta) em volta. Antes de entregar, cheque cada slide: se sobra muita área vazia, refaça. Vale o padrão do mira-animator: espaço vazio é defeito de composição; na criação nativa, o que a escala não resolver vira cenário ambiente da própria metáfora (parado ou em deriva lenta, nunca focal, e sempre dentro dos 2/3).
 
 ## ÁREA SEGURA: 50px do BOX dos 2/3, com título E animação dentro
 
@@ -91,7 +91,7 @@ Nada de título, pílula ou elemento da animação invade o terço reservado. El
 
 Quando não houver deck de origem, ou o usuário pedir "cria um slide em terços sobre X", NÃO crie um slide centralizado para reenquadrar depois. O slide nasce composto em terços:
 
-1. **Herde as regras criativas do `agents/mira-animator/SKILL.md`:** Regra Zero (loop interno obrigatório), liberdade criativa de metáfora, regra de idioma, regra de título (sem ícone, máximo 6 palavras), estrutura do card com glass-card.
+1. **Herde as regras criativas do `agents/mira-animator/SKILL.md`:** metáfora primeiro, animação depois (método A/B antes de codar), Regra Zero (metáfora + história + loop interno obrigatório), refinamento sob demanda por slide, regra de idioma, regra de título (sem ícone, máximo 6 palavras), estrutura do card com glass-card.
 2. **Composição nativa:** o arquivo nasce com o bloco `<style id="mira-formato-thirds">` desta skill no head, o conteúdo autorado para viver nas colunas 1+2 e a coluna 3 em cinza #333. A animação já nasce preenchendo o box dos 2/3.
 3. **Vantagem da autoria nativa:** aqui você PODE compor a animação com o assunto principal sobre a linha de força entre a COL 2 e a COL 3, que é o ponto forte da regra dos terços.
 
