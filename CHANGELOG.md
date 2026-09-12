@@ -4,6 +4,32 @@ Mudanças de cada versão do `mira-animator`, em linguagem de quem usa.
 
 O histórico começa na 0.1.51. Para o que veio antes, veja o `git log`.
 
+## 0.1.66
+
+### Adicionado
+
+**`/mira-history`: uma história inteira vira animação.** O autor cola o texto de uma história
+(normalmente infantil) e sai um deck que a conta sozinho: cenas contínuas com câmera, closes
+por dissolve, clima e paleta mudando com a emoção (chuva, neve, névoa, partículas, raio,
+tremor), personagens em SVG de fonte aberta (catálogo de bichos de fazenda e lago no pacote,
+mais busca na web com licença anotada), legendas de conto narradas pelo edge-tts uma frase por
+vez, música de fundo com ducking, capa com QR code e `abrir-no-celular.bat`/`.command` que
+sobem um servidor na rede local para o celular ou tablet rodar a história em tela cheia.
+
+A skill foi desenhada para um modelo mais fraco acertar: ele escreve só dados
+(`mira/historia.js`, vocabulário fechado de atores, lugares, cenas, ações e legendas) e o
+runtime versionado `mira-history.js` faz o resto, com pose pura e DOM persistente. Scripts
+Node puro: `novo.mjs` (pasta e árvore), `ator.mjs` (normaliza e embute SVG, mede a caixa
+visível, recolore variantes), `validar.mjs` (rejeita campo desconhecido, ator inexistente,
+frase curta; avisa sem close, paleta parada, sem tremor), `narrar.mjs` (mp3 por frase com
+duração medida, cache por texto e voz) e `conferir.mjs` (screenshots por cena e instante e
+folha de contato). Deck de exemplo: `decks/2026-09-12 patinho-feio` (15 cenas, 157 s).
+
+Navegação da história: botão Começar na capa (gesto para o áudio), avanço travado até a cena
+e a narração terminarem (o botão pulsa em verde), modo automático (tecla A), pausa (espaço),
+deslizar no toque, tela cheia (F), som (M), reinício da cena (R), FIM e "Voltar ao início".
+Modo leve automático em tela de toque.
+
 ## 0.1.65
 
 ### Adicionado
