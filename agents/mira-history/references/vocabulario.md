@@ -40,7 +40,7 @@ atores: {
 
 - `arquivo`: SVG em `assets/atores/` (instalado por `ator.mjs`). Padrão: `<nome>.svg`.
 - `altura`: altura do ator no mundo (o chão tem 445, um patinho tem 70, uma pata 150, uma árvore 300).
-- `olha`: para onde o desenho original olha (`direita` ou `esquerda`). O runtime vira o sprite sozinho ao mover.
+- `olha`: para onde o **desenho** aponta a cabeça (`direita` ou `esquerda`). O runtime espelha o sprite sozinho ao mover, a partir disso. **Obrigatório** para quem se move ou vira. Confira olhando `references/atores.png` (`ator.mjs ver`); declarado errado, o ator anda de costas. Objeto sem frente (casa, pedra, caldeirão) que se move: `olha: 'nenhum'` (nunca espelha).
 - `variantes`: outros SVGs do mesmo personagem (`triste`, `feliz`, `cisne`). `trocar` faz crossfade entre eles.
 - `tipo: 'ovo'`: ator procedural (não precisa de SVG) com estados `fechado`, `rachado`, `aberto`.
 - Cada personagem em cena é um ator: três patinhos são `patinho1`, `patinho2`, `patinho3` com o mesmo `arquivo`.

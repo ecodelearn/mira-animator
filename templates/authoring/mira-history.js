@@ -172,7 +172,8 @@
             x: -300, y: CHAO_Y, s: 1, op: 0, flip: (a.olha === 'esquerda') ? -1 : 1, rot: 0,
             var1: 'base', var2: 'base', varK: 0,      /* crossfade de variante */
             modo: 'parado', pulo: 0, treme: 0, balanca: 0, estado: (a.tipo === 'ovo') ? 'fechado' : '',
-            olhaBase: (a.olha === 'esquerda') ? -1 : 1
+            olhaBase: (a.olha === 'esquerda') ? -1 : 1,
+            semCara: a.olha === 'nenhum'      /* objeto sem frente (casa, pedra): nunca espelha */
         };
     }
 
@@ -364,7 +365,7 @@
                 var alvo = orig.alvo;
                 at.x = L(orig.pos.x, alvo.x, k);
                 at.y = L(orig.pos.y, alvo.y, k);
-                if (a.virar !== false && Math.abs(alvo.x - orig.pos.x) > 4) at.flip = (alvo.x < orig.pos.x ? -1 : 1) * at.olhaBase;
+                if (a.virar !== false && at.semCara !== true && Math.abs(alvo.x - orig.pos.x) > 4) at.flip = (alvo.x < orig.pos.x ? -1 : 1) * at.olhaBase;
                 at.modo = (kl > 0 && kl < 1) ? (a.modo || 'andar') : (a.parar === false ? (a.modo || 'andar') : (a.modo === 'nadar' ? 'boiar' : (a.modo === 'voar' ? 'voar' : 'parado')));
                 if (a.modo === 'voar' && kl >= 1) at.modo = 'planar';
                 at.andaK = kl;
@@ -707,7 +708,7 @@
         var atores = {};
         Object.keys(ATORES).forEach(function (nome) {
             var def = ATORES[nome];
-            var g = el('g', { class: 'ator', opacity: 0 }, gSet);
+            var g = el('g', { class: 'ator', 'data-ator': nome, opacity: 0 }, gSet);
             var gi = el('g', null, g);        /* movimento interno (bob, pulo) */
             var reg = { g: g, gi: gi, def: def, nome: nome, usos: {}, procedural: null, reflexos: {} };
             if (def.tipo === 'ovo') {

@@ -3,6 +3,8 @@
 //   node ator.mjs <deck> add <nome> <arquivo.svg> [--de <url>] [--autor <nome>] [--licenca CC0] [--cor #A=#B ...] [--fill #cor] [--sem-fundo]
 //   node ator.mjs <deck> catalogo <nome>            (copia do catálogo references/assets/catalogo/<nome>.svg)
 //   node ator.mjs <deck> sync                        (reembute todos os assets/atores/*.svg)
+//   node ator.mjs <deck> ver                         (references/atores.png: cada ator grande, para conferir
+//                                                     para que lado ele OLHA antes de declarar "olha")
 //   node ator.mjs --catalogo <pasta> add <nome> <arquivo.svg> [...]   (grava no catálogo do pacote)
 //
 // Normalização: remove XML/DOCTYPE/comentários/metadata/sodipodi/inkscape/title/desc/script,
@@ -142,7 +144,35 @@ export function sincronizar(deckDir) {
   return lista.map(a => a.nome);
 }
 
+async function verAtores(deckDir) {
+  const lista = listar(join(deckDir, 'assets', 'atores'), '.svg');
+  if (!lista.length) throw new Error('assets/atores vazio');
+  const pup = await carregarPuppeteer();
+  if (!pup) throw new Error('puppeteer não encontrado: não dá para renderizar a folha');
+  const tiles = lista.map(p => {
+    const nome = basename(p, '.svg');
+    return `<div class="t"><img src="file:///${p.replace(/\\/g, '/')}"><div class="n">${nome}</div><div class="s">olha para a esquerda &larr; ou para a direita &rarr; ?</div></div>`;
+  }).join('');
+  const html = `<html><body style="margin:0;background:#dfe7ee;font:14px sans-serif;display:flex;flex-wrap:wrap;padding:8px">
+  <style>.t{width:300px;margin:8px;background:#fff;border-radius:8px;text-align:center;padding:10px}.t img{width:260px;height:220px;object-fit:contain;display:block;margin:0 auto}.n{font-weight:bold;font-size:18px;margin-top:6px}.s{color:#555;font-size:12px}</style>${tiles}</body></html>`;
+  const arq = join(deckDir, 'references', 'atores.html');
+  writeFileSync(arq, html, 'utf8');
+  const browser = await pup.launch({ headless: 'new', executablePath: acharChrome(), args: ['--no-sandbox', '--disable-setuid-sandbox', '--allow-file-access-from-files'] });
+  try {
+    const page = await browser.newPage();
+    await page.setViewport({ width: 1320, height: 900 });
+    await page.goto('file:///' + arq.replace(/\\/g, '/'), { waitUntil: 'networkidle0' });
+    await page.screenshot({ path: join(deckDir, 'references', 'atores.png'), fullPage: true });
+  } finally { await browser.close(); }
+  return join(deckDir, 'references', 'atores.png');
+}
+
 async function main() {
+  if (cmd === 'ver') {
+    const png = await verAtores(deck);
+    console.log('Folha dos atores: ' + png + '\nOlhe cada um: a cabeça aponta para a esquerda ou para a direita? Esse é o "olha" do ator em historia.js. Errar isso faz o ator andar de costas.');
+    return;
+  }
   if (cmd === 'sync') {
     console.log('Atores embutidos: ' + sincronizar(deck).join(', '));
     return;

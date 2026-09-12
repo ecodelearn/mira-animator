@@ -78,6 +78,11 @@ Regra herdada do `/mira-asset-scout`: **animal, pessoa, veículo e objeto detalh
 3. **Variantes por recoloração.** Um patinho cinza é o patinho amarelo recolorido: `--cor "#ddc177=#9aa2ab"` (repita `--cor` por cor). Liste as cores do SVG com `grep -o 'fill:#[0-9a-f]*' arquivo.svg | sort | uniq -c`. Silhueta sem cor declarada ganha cor com `--fill "#4E7A3A"`.
 4. **Sem web nesta sessão ou não achou:** diga isso em uma linha e ofereça: (a) o autor manda o SVG; (b) troca por um ator do catálogo parecido (um ganso no lugar de um pato); (c) a cena passa a ser contada sem esse personagem em tela. Sem resposta, siga pela (b). Nunca desenhe o animal.
 5. Ovos são procedurais: `{ tipo: 'ovo' }`. Sol, lua, nuvens, chuva, neve, névoa, colinas, água, celeiro, cerca, juncos: o runtime desenha.
+6. **Confira o sentido de cada ator (obrigatório).** O runtime espelha o sprite pela direção em que ele anda, a partir do campo `olha`. Se você declarar `olha: 'direita'` para um desenho que olha para a esquerda, o ator **anda de costas** a história inteira. Não adivinhe pelo nome do arquivo:
+   ```
+   node <skill>/scripts/ator.mjs "<deck>" ver
+   ```
+   gera `references/atores.png` com cada ator grande. **Abra a imagem** e anote, para cada um, para que lado a cabeça aponta. Esse é o `olha`. Quem se move ou vira sem `olha` declarado é erro no validador.
 
 ## Passo 4, escrever `mira/historia.js`
 
@@ -98,10 +103,12 @@ Copie o `references/exemplo-historia.js` e adapte: atores, lugares, cenas. Só o
 node <skill>/scripts/validar.mjs "<deck>"      # erros bloqueiam; avisos são revisão
 node <skill>/scripts/narrar.mjs "<deck>"       # gera 1 mp3 por frase e mede a duração
 node <skill>/scripts/conferir.mjs "<deck>"     # screenshots de cada cena em 3 instantes + folha.png
+node <skill>/scripts/conferir.mjs "<deck>" --movimentos   # um quadro por movimento, com seta: ninguém anda de costas
 ```
 
 - `validar.mjs` rejeita campo desconhecido, ator inexistente, variante inexistente, ponto inválido, frase curta. Corrija até `OK`.
 - `narrar.mjs` só regera o que mudou (cache por texto e voz). Sem ele, o runtime estima a duração pela contagem de palavras.
+- `conferir.mjs --movimentos` grava `folha-movimentos.png`: um quadro no meio de cada `mover`, com uma seta vermelha em cima do ator dizendo para onde ele anda. **Abra e confira: a cabeça do ator tem que apontar para a seta.** Ator de costas para a seta = `olha` invertido em `historia.js`; corrija e rode de novo. Esta conferência é obrigatória antes de entregar.
 - `conferir.mjs` grava em `references/conferencia/` e monta `folha.png`. **Abra a folha e olhe** cada quadro: ator faltando, ator flutuando, texto em cima de rosto, câmera cortando o personagem, paleta parada. Corrija o `historia.js` e rode de novo. Com `--leve` simula celular. Com `--cena c3 --instantes 1s,4s` mira um problema.
 - Toda mudança em legenda pede `narrar.mjs` de novo (os tempos dependem da voz).
 
@@ -127,6 +134,7 @@ Diga ao autor, em poucas linhas:
 - [ ] Pelo menos 2 closes por dissolve, 3 paletas, 1 tremor ou raio onde há tensão.
 - [ ] Narração gerada por `narrar.mjs`, nenhuma frase com menos de 3 palavras.
 - [ ] `conferir.mjs` rodado na versão final, folha olhada, sem erro no console.
+- [ ] `ator.mjs ver` olhado e `olha` declarado para todo ator que se move; `conferir.mjs --movimentos` olhado: nenhum ator anda de costas.
 - [ ] Módulos E e P presentes em `mira/` e referenciados no `index.html` (o template já traz).
 - [ ] Entrega com caminho, launcher do celular, teclas e duração.
 

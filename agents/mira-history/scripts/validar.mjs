@@ -97,6 +97,7 @@ function validarPonto(p, onde) {
 }
 const ids = new Set();
 let closes = 0, paletas = new Set(), tremores = 0, cortes = 0, totalEstimado = 0;
+const seMovem = new Set();
 (H.cenas || []).forEach((c, i) => {
   const onde = `cenas[${i}]${c.id ? ' (' + c.id + ')' : ''}`;
   chaves(c, CENA, onde);
@@ -118,8 +119,10 @@ let closes = 0, paletas = new Set(), tremores = 0, cortes = 0, totalEstimado = 0
     if (a.acao !== 'estado') numero(a.valor, o, 'valor');
     if (a.dur != null && +a.dur <= 0) E(`${o}: "dur" precisa ser maior que zero`);
     if (a.acao === 'mostrar') { validarPonto(a.em, o); temVariante(a.ator, a.variante, o); if (a.modo && !MODOS.includes(a.modo)) E(`${o}: modo "${a.modo}" (${MODOS.join(', ')})`); if (a.virado && !['esquerda', 'direita'].includes(a.virado)) E(`${o}: virado "${a.virado}"`); }
+    if (['mover', 'virar', 'olhar'].includes(a.acao) && a.ator && H.atores[a.ator] && H.atores[a.ator].olha === 'nenhum' && a.acao !== 'mover') E(`${o}: ${a.ator} tem olha: 'nenhum' e não pode virar`);
     if ((a.acao === 'virar' || a.acao === 'olhar') && !['esquerda', 'direita'].includes(a.para)) E(`${o}: "para" precisa ser esquerda ou direita`);
     if (a.acao === 'escala' && a.valor == null) E(`${o}: escala sem "valor"`);
+    if (a.acao === 'mover' || a.acao === 'virar' || a.acao === 'olhar' || (a.acao === 'mostrar' && a.virado)) { if (a.ator) seMovem.add(a.ator); }
     if (a.acao === 'mover') { if (a.para == null) E(`${o}: mover sem "para"`); validarPonto(a.para, o); if (a.modo && !MODOS.includes(a.modo)) E(`${o}: modo "${a.modo}" (${MODOS.join(', ')})`); }
     if (a.acao === 'trocar') { if (!a.variante) E(`${o}: trocar sem "variante"`); temVariante(a.ator, a.variante, o); }
     if (a.acao === 'estado') { const at = H.atores[a.ator]; if (at && at.tipo !== 'ovo') E(`${o}: "estado" só vale para ator tipo ovo`); if (!['fechado', 'rachado', 'aberto'].includes(a.valor)) E(`${o}: estado "${a.valor}" (fechado, rachado, aberto)`); }
@@ -142,6 +145,10 @@ let closes = 0, paletas = new Set(), tremores = 0, cortes = 0, totalEstimado = 0
   if (!c.capa && legs.length > 3) A(`${onde}: ${legs.length} legendas; o ideal é 1 ou 2 por cena`);
   if (!c.capa && !legs.length && !c.fim) A(`${onde}: cena sem legenda nem narração`);
   if (i === (H.cenas.length - 1) && !c.fim) A(`${onde}: a última cena não tem fim: true (FIM e botão de recomeçar)`);
+});
+seMovem.forEach(nome => {
+  const at = H.atores[nome];
+  if (at && at.tipo !== 'ovo' && !['esquerda', 'direita', 'nenhum'].includes(at.olha)) E(`atores.${nome}: se move ou vira, então precisa de "olha" (esquerda ou direita): para que lado o DESENHO aponta a cabeça. Confira em references/atores.png (node ator.mjs <deck> ver). Errado, o ator anda de costas. Objeto sem frente (casa, pedra): olha: 'nenhum'.`);
 });
 const n = (H.cenas || []).length;
 if (n && n < 6) A(`só ${n} cenas; uma história infantil costuma pedir de 8 a 14`);
