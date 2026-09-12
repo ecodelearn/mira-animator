@@ -1350,8 +1350,17 @@
             if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
             ir(dx < 0 ? 1 : -1);
         }, { passive: true });
-        /* roda do mouse e rolagem: neutralizadas, a navegação é só pelos comandos */
+        /* roda do mouse e rolagem por toque: neutralizadas, a navegação é só pelos comandos.
+           No celular a rolagem parcial fazia a cena sair da tela e reiniciar (piscando). */
         window.addEventListener('wheel', function (e) { e.preventDefault(); }, { passive: false });
+        document.addEventListener('touchmove', function (e) { if (!(e.target.closest && e.target.closest('#mira-nav'))) e.preventDefault(); }, { passive: false });
+        /* se algo ainda deslocar a página (barra do navegador, teclado), recoloca a cena atual no lugar */
+        var ajustando = false;
+        window.addEventListener('resize', function () {
+            if (ajustando) return;
+            ajustando = true;
+            setTimeout(function () { ajustando = false; var i = atual(); secs[i].scrollIntoView({ behavior: 'instant', block: 'start' }); }, 120);
+        });
 
         /* QR da capa: só por http num endereço de rede */
         (function () {

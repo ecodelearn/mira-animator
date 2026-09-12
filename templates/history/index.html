@@ -32,9 +32,12 @@
 /* @MIRA:THEME:END */
 
 :root {
-    --fmt-w: min(100vw, calc(100vh * 16 / 9));
+    --vh: 100vh;
+    --fmt-w: min(100vw, calc(var(--vh) * 16 / 9));
     --fmt-h: calc(var(--fmt-w) * 9 / 16);
 }
+/* altura estável no celular: não muda quando a barra do navegador some (evita o quadro pular) */
+@supports (height: 100svh) { :root { --vh: 100svh; } }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html {
     background: #000;
@@ -42,6 +45,10 @@ html {
     scroll-snap-type: y proximity;
     scrollbar-width: none;
     overflow-x: hidden;
+    /* a navegação é só pelos botões, setas e deslizar horizontal: o dedo não rola a página
+       (rolagem parcial fazia a cena "sair" da tela e reiniciar, piscando) */
+    overflow-y: hidden;
+    overscroll-behavior: none;
 }
 html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
 body {
@@ -53,20 +60,25 @@ body {
     flex-direction: column;
     align-items: center;
     -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
 }
+#mira-nav, .btn-comecar, .btn-inicio { touch-action: manipulation; }
 body > section {
     position: relative;
     width: var(--fmt-w);
     height: var(--fmt-h);
     min-height: var(--fmt-h);
-    margin: calc((100vh - var(--fmt-h)) / 2) 0;
-    scroll-margin-top: calc((100vh - var(--fmt-h)) / 2);
+    margin: calc((var(--vh) - var(--fmt-h)) / 2) 0;
+    scroll-margin-top: calc((var(--vh) - var(--fmt-h)) / 2);
     overflow: hidden;
     background: var(--mira-bg);
     scroll-snap-align: start;
     isolation: isolate;
 }
-:fullscreen body > section, :-webkit-full-screen body > section { margin: calc((100vh - var(--fmt-h)) / 2) 0; }
+:fullscreen body > section, :-webkit-full-screen body > section { margin: calc((var(--vh) - var(--fmt-h)) / 2) 0; }
 .anim-stage { position: absolute; inset: 0; z-index: 1; }
 .anim-stage svg { width: 100%; height: 100%; display: block; }
 #mira-atores { position: absolute; width: 0; height: 0; overflow: hidden; }
@@ -177,7 +189,10 @@ body > section:first-of-type h1, body > section:first-of-type h2, .conto.capa .f
 }
 body.pausado #mira-nav { opacity: 1; }
 /* tela de toque: barra sempre visível e botões maiores (regra depois de .nav-btn, para vencer) */
+/* toque: sem estado de hover (o "hover" preso depois do toque fazia o botão pular) */
 @media (hover: none) {
+    .nav-btn:hover { transform: none; background: rgba(10, 12, 24, 0.85); border-color: rgba(255, 255, 255, 0.16); }
+    .capa-botoes .btn-comecar:hover, .btn-inicio:hover { transform: none; background: rgba(255, 246, 216, 0.14); }
     #mira-nav { opacity: 1; bottom: 16px; right: 16px; gap: 12px; }
     #mira-nav .nav-btn { width: 50px; height: 50px; backdrop-filter: none; background: rgba(10, 12, 24, 0.85); }
     #mira-nav .nav-btn svg { width: 22px; height: 22px; }
