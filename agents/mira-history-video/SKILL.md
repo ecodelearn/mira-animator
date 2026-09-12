@@ -48,6 +48,7 @@ Não grava em tempo real. Abre o `index.html?video=1` (o runtime esconde todo co
 - **Vertical ou quadrado:** não; a história é 16:9. Para Reels, recorte na edição ou peça um deck vertical.
 - **Só um trecho:** `--cenas c3,c4,c5` (os cortes entre elas continuam com dissolve).
 - **Arquivo menor:** `--qualidade 23` (CRF maior, menor arquivo) ou `--largura 1280`.
+- **Para WhatsApp:** `--whatsapp` gera também `<nome>-whatsapp.mp4` em 720p, CRF 27, áudio 96k (uns 10 MB por 2,5 minutos). O mp4 principal em 1080p continua sendo gerado.
 
 ## Portões de entrega
 

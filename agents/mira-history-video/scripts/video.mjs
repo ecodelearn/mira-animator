@@ -2,7 +2,10 @@
 // narração e música, sem controle nenhum na tela, na cadência da própria história.
 //
 //   node video.mjs <deck> [--saida arquivo.mp4] [--fps 30] [--largura 1920] [--respiro 0.6]
-//                         [--dissolve 0.9] [--sem-musica] [--cenas c1,c2] [--qualidade 18] [--reusar <pasta-temp>]
+//                         [--dissolve 0.9] [--sem-musica] [--cenas c1,c2] [--qualidade 18] [--reusar <pasta-temp>] [--whatsapp]
+//
+// --whatsapp gera, além do mp4 principal, uma cópia -whatsapp.mp4 em 720p e leve (uns 10 MB por
+// 2,5 min), que o WhatsApp aceita sem recomprimir demais.
 //
 // Se a emenda ou o áudio falharem, os clipes por cena ficam na pasta temporária impressa;
 // --reusar <pasta> pula a captura (a parte lenta) e refaz só a emenda e o áudio.
@@ -31,6 +34,7 @@ const SEM_MUSICA = args.includes('--sem-musica');
 const SO_CENAS = opt('cenas', null) ? opt('cenas', null).split(',').map(s => s.trim()) : null;
 const CRF = opt('qualidade', '18');
 const REUSAR = opt('reusar', null);
+const WHATSAPP = args.includes('--whatsapp');
 const FFMPEG = process.env.MIRA_FFMPEG || 'ffmpeg';
 const saida = resolve(opt('saida', join(deck, basename(deck).replace(/^\d{4}-\d{2}-\d{2}\s+/, '') + '.mp4')));
 
@@ -173,6 +177,11 @@ if (entradas.length || musica) {
 mkdirSync(resolve(saida, '..'), { recursive: true });
 if (audio) ff(['-i', videoSemAudio, '-i', audio, '-map', '0:v', '-map', '1:a', '-c:v', 'copy', '-c:a', 'copy', '-shortest', '-movflags', '+faststart', saida], 'final');
 else ff(['-i', videoSemAudio, '-c', 'copy', '-movflags', '+faststart', saida], 'final');
+if (WHATSAPP) {
+  const wa = saida.replace(/\.mp4$/i, '') + '-whatsapp.mp4';
+  ff(['-i', saida, '-vf', 'scale=1280:-2', '-c:v', 'libx264', '-preset', 'slow', '-crf', '27', '-profile:v', 'high', '-level', '4.0', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '96k', '-ac', '2', '-movflags', '+faststart', wa], 'versão WhatsApp');
+  console.log('Versão WhatsApp: ' + wa);
+}
 rmSync(tmp, { recursive: true, force: true });
 console.log(`Vídeo: ${saida} (${TOTAL.toFixed(1)} s, ${W}x${Hh}, ${FPS} fps, ${partes.length ? partes.length + ' frases narradas' : 'sem narração'}${musica ? ' + música' : ''})`);
 if (erros.length) { console.log('Erros no navegador: ' + [...new Set(erros)].join(' | ')); process.exitCode = 2; }
