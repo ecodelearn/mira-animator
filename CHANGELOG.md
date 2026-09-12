@@ -4,6 +4,31 @@ Mudanças de cada versão do `mira-animator`, em linguagem de quem usa.
 
 O histórico começa na 0.1.51. Para o que veio antes, veja o `git log`.
 
+## 0.1.65
+
+### Adicionado
+
+**Filtro de palavras no `/mira-post-it`.** O mural é projetado e a resposta é texto livre de
+plateia anônima, então o template agora barra palavrões: a resposta barrada é descartada em
+silêncio na leitura, não vira post-it, não conta no contador e não deixa vaga vazia. A
+checagem normaliza o texto (minúsculas, sem acento, leet básico como `m3rd4`, letra repetida
+colapsada) e compara palavra inteira, então "curso" não cai por causa de "cu". Fugas
+clássicas também caem: palavra soletrada (`m e r d a`) e palavrão colado em outra palavra
+(`putamerda`), este buscado só numa sublista segura para "computador" e "enviado" não caírem
+junto. A lista cobre português, inglês e espanhol, é editável no bloco `CONFIG`, e vazia
+desliga o filtro.
+
+**DeepSeek Harness (dsh) como engine de instalação.** O instalador agora oferece e detecta o
+dsh (pasta `.dsh` no projeto ou comando `deepseek`/`dsh` na máquina). Nada de formato novo: o
+dsh lê `AGENTS.md` e varre `.agents/skills` nativamente, os mesmos arquivos já usados pelo
+Codex e companhia, então marcar as duas engines não duplica nada.
+
+### Mudado
+
+**`/mira-postit` virou `/mira-post-it`.** Só correção de grafia do comando; o agente é o
+mesmo. Reinstalar os agentes instala o nome novo e remove a pasta do antigo, para os dois
+comandos não ficarem vivos lado a lado.
+
 ## 0.1.64
 
 ### Mudado
