@@ -30,6 +30,14 @@ e a narração terminarem (o botão pulsa em verde), modo automático (tecla A),
 deslizar no toque, tela cheia (F), som (M), reinício da cena (R), FIM e "Voltar ao início".
 Modo leve automático em tela de toque.
 
+**`/mira-history-video`: a história em um .mp4.** Grava o deck do `/mira-history` num vídeo
+com narração e música, sem controle nenhum na tela e na cadência da história: dirige o
+relógio do runtime quadro a quadro em Chrome headless (determinístico, não tempo real), emenda
+as cenas com corte seco ou dissolve (`xfade`) e monta o áudio no ffmpeg com cada frase no
+instante da legenda e a música baixando enquanto a voz fala. Correção no celular: a página não
+rola mais por toque (a rolagem parcial reiniciava a cena, piscando) e a altura da viewport é
+estável (`100svh`).
+
 ## 0.1.65
 
 ### Adicionado

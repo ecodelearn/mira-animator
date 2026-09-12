@@ -1078,6 +1078,7 @@
     var TESTE = (function () {
         var q = {};
         (location.search || '').replace(/^\?/, '').split('&').forEach(function (kv) { if (!kv) return; var p = kv.split('='); q[decodeURIComponent(p[0])] = decodeURIComponent(p[1] || ''); });
+        if (q.video != null) window.__miraModoVideo = true;
         return q.cena != null ? { cena: q.cena, t: +(q.t || 0) } : null;
     })();
 
@@ -1470,6 +1471,7 @@
        --------------------------------------------------------------------- */
     function iniciar() {
         if (H.titulo) document.title = H.titulo;
+        if (window.__miraModoVideo) { document.body.classList.add('mira-video'); window.__miraMudo = true; }
         lerSimbolos();
         compilar();
         calcularRepousos();
@@ -1478,6 +1480,30 @@
         CENAS.forEach(function (c, i) { montarCena(c, secs[i]); });
         montarNavegacao();
         window.__miraHistory = { cenas: CENAS, repouso: REPOUSO, poseAt: poseAt, estado0: estado0, relogios: RELOGIOS, leve: LEVE };
+        /* modo vídeo (?video=1): o gravador dirige o relógio de cada cena quadro a quadro.
+           preparar(i) leva a cena para a tela; quadro(i, ms) pinta o instante exato. */
+        window.__miraVideo = {
+            preparar: function (i) {
+                var s = secs[i];
+                if (!s) return false;
+                s.scrollIntoView({ behavior: 'instant', block: 'start' });
+                return true;
+            },
+            quadro: function (i, ms) {
+                var svg = secs[i] && secs[i].querySelector('svg');
+                var rel = svg && RELOGIOS[svg.id];
+                if (!rel) return false;
+                rel.dirigir(ms);
+                return true;
+            },
+            plano: function () {
+                return CENAS.map(function (c) {
+                    return { id: c.id, durS: c.durS, corte: c.corte || null, capa: !!c.capa, fim: !!c.fim,
+                        falas: c.legs.filter(function (l) { return l.arquivo; }).map(function (l) { return { de: l.de, dur: l.fala, arquivo: l.arquivo }; }) };
+                });
+            },
+            musica: H.musica || null, volumeMusica: H.volumeMusica != null ? +H.volumeMusica : 0.35
+        };
         window.__miraSeqAPI = Bus;
         var durTotal = CENAS.reduce(function (s, c) { return s + c.durS; }, 0);
         console.info('[mira-history] ' + CENAS.length + ' cenas, ' + Math.round(durTotal) + ' s' + (LEVE ? ' (modo leve)' : ''));

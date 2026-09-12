@@ -207,6 +207,9 @@ body.pausado #mira-nav { opacity: 1; }
 #mira-gire { display: none; position: fixed; left: 50%; top: 12px; transform: translateX(-50%); z-index: 9997; font-size: 15px; color: var(--mira-conto); background: rgba(10, 12, 24, 0.75); border: 1px solid rgba(255, 246, 216, 0.5); border-radius: 9999px; padding: 6px 14px; pointer-events: none; white-space: nowrap; }
 @media (hover: none) and (orientation: portrait) { #mira-gire { display: block; } }
 body.mira-teste #mira-nav, body.mira-teste #mira-progress, body.mira-teste #mira-gire { display: none; }
+/* modo vídeo (/mira-history-video): só a cena, sem controle nenhum */
+body.mira-video #mira-nav, body.mira-video #mira-progress, body.mira-video #mira-gire, body.mira-video .capa-botoes, body.mira-video .btn-inicio, body.mira-video .qr-capa { display: none !important; }
+body.mira-video { background: #000; }
 </style>
 </head>
 <body>
