@@ -2,19 +2,15 @@
 name: mira-history
 description: >-
   Transforma o TEXTO de uma história (normalmente infantil) num deck do Mira que é a
-  animação completa dela: cenas contínuas com câmera, closes por dissolve, clima e paleta
-  que mudam com a emoção, atores em SVG de fonte aberta, legendas de conto com narração
-  em voz (edge-tts), música de fundo, capa com QR code e servidor na rede local para rodar
-  no celular ou tablet em tela cheia. O modelo só escreve DADOS (mira/historia.js) num
-  vocabulário fechado; o runtime versionado mira-history.js anima. Use SEMPRE que o
-  usuário disser /mira-history, "anima essa história", "história animada", "conto
-  infantil animado", "transforma essa história em animação", "historinha para o celular",
-  "contar essa história com narração", ou colar um conto e pedir animação. Também, sobre um
-  deck feito por ela: "vídeo da história", "exporta em mp4", "manda para vídeo", "versão
-  para WhatsApp" (gera o .mp4) e "música de fundo", "prompt para o Suno" (entrega um prompt
-  de música instrumental com a cara da história). NÃO é para
-  explicar conceito (isso é /mira-animator e /mira-sequence-director) nem para deck de
-  slides comum.
+  animação completa dela: cenas com câmera, closes por dissolve, clima e paleta pela
+  emoção, atores em SVG aberto, legendas narradas (edge-tts), música de fundo, capa com
+  QR code e servidor na rede para rodar no celular. O modelo escreve só DADOS
+  (mira/historia.js) num vocabulário fechado; o runtime mira-history.js anima. Use SEMPRE
+  que o usuário disser /mira-history, "anima essa história", "história animada", "conto
+  infantil animado", "historinha para o celular", ou colar um conto e pedir animação.
+  Sobre um deck dela, também: "vídeo da história", "exporta em mp4", "versão para
+  WhatsApp" e "música de fundo", "prompt para o Suno". NÃO é para explicar conceito
+  (/mira-animator, /mira-sequence-director) nem deck de slides comum.
 ---
 
 # Skill: /mira-history, do texto da história à animação completa
