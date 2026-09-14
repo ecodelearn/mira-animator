@@ -9,7 +9,8 @@ description: >-
   original. Use SEMPRE que o usuário disser /mira-slide-to-video, gerar
   vídeo do slide, transformar slide em vídeo, exportar slide como mp4, gravar a
   animação do slide, vídeo do deck, quero um mp4 do slide, renderizar o slide em
-  vídeo, ou fazer um Reels/Short a partir do slide.
+  vídeo, ou fazer um Reels/Short a partir do slide. NÃO para deck de história do
+  /mira-history (tem mira/historia.js): o vídeo dele é feito pela própria /mira-history.
 ---
 
 # Skill: Slide (ou slides) do Mira em vídeo .mp4

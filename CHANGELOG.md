@@ -11,6 +11,10 @@ O histórico começa na 0.1.51. Para o que veio antes, veja o `git log`.
 **`/mira-history` volta a carregar.** Na 0.1.68 a descrição da skill passou de 1024 caracteres,
 o limite do Claude Code, e a skill podia não aparecer. A descrição foi reescrita, curta.
 
+**Vídeo de história e vídeo de slide não se confundem.** Deck com `mira/historia.js` é gravado pela
+`/mira-history` (cadência, narração e música da história); qualquer outro deck continua com a
+`/mira-slide-to-video`. As duas descrições dizem isso.
+
 ## 0.1.68
 
 ### Mudado

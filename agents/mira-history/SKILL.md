@@ -4,8 +4,9 @@ description: >-
   Transforma o texto de uma história (normalmente infantil) numa animação narrada no Mira:
   cenas com câmera e clima, atores em SVG, narração, música e QR para o celular. Use em
   /mira-history, "anima essa história", "história animada", "conto animado" ou conto colado
-  pedindo animação. Num deck dela, também gera vídeo mp4 (inclusive para WhatsApp) e prompt
-  de música de fundo para o Suno. Não é para explicar conceito nem slide comum.
+  pedindo animação. Num deck dela (tem mira/historia.js), também gera o vídeo mp4 da história
+  (inclusive para WhatsApp) e prompt de música para o Suno. Vídeo de deck comum é do
+  /mira-slide-to-video. Não é para explicar conceito nem slide comum.
 ---
 
 # Skill: /mira-history, do texto da história à animação completa
@@ -138,7 +139,7 @@ A música fica por baixo da voz o tempo todo: peça textura suave, sem melodia q
 
 ## Vídeo da história (quando o autor pedir)
 
-Se o autor pedir a história em vídeo (.mp4, YouTube, WhatsApp), grave a partir do deck pronto. Sem controle nenhum na tela, na cadência da história: o script dirige o relógio do runtime quadro a quadro em Chrome headless, emenda as cenas com corte seco ou dissolve e monta o áudio com cada frase no instante da legenda e a música baixando na fala.
+Se o autor pedir a história em vídeo (.mp4, YouTube, WhatsApp), grave a partir do deck pronto. Vale só para deck com `mira/historia.js`; deck comum de slides é do `/mira-slide-to-video`, que grava slides em tempo real e não conhece a cadência, a narração e a música da história. Sem controle nenhum na tela, na cadência da história: o script dirige o relógio do runtime quadro a quadro em Chrome headless, emenda as cenas com corte seco ou dissolve e monta o áudio com cada frase no instante da legenda e a música baixando na fala.
 
 Pré-requisitos: narração gerada (`narrar.mjs`), Chrome, puppeteer, `ffmpeg` no PATH (ou `MIRA_FFMPEG`). Deck antigo sem `window.__miraVideo`: copie o `mira-history.js` novo de `templates/authoring/`.
 
