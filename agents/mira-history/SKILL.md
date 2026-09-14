@@ -1,16 +1,11 @@
 ---
 name: mira-history
 description: >-
-  Transforma o TEXTO de uma história (normalmente infantil) num deck do Mira que é a
-  animação completa dela: cenas com câmera, closes por dissolve, clima e paleta pela
-  emoção, atores em SVG aberto, legendas narradas (edge-tts), música de fundo, capa com
-  QR code e servidor na rede para rodar no celular. O modelo escreve só DADOS
-  (mira/historia.js) num vocabulário fechado; o runtime mira-history.js anima. Use SEMPRE
-  que o usuário disser /mira-history, "anima essa história", "história animada", "conto
-  infantil animado", "historinha para o celular", ou colar um conto e pedir animação.
-  Sobre um deck dela, também: "vídeo da história", "exporta em mp4", "versão para
-  WhatsApp" e "música de fundo", "prompt para o Suno". NÃO é para explicar conceito
-  (/mira-animator, /mira-sequence-director) nem deck de slides comum.
+  Transforma o texto de uma história (normalmente infantil) numa animação narrada no Mira:
+  cenas com câmera e clima, atores em SVG, narração, música e QR para o celular. Use em
+  /mira-history, "anima essa história", "história animada", "conto animado" ou conto colado
+  pedindo animação. Num deck dela, também gera vídeo mp4 (inclusive para WhatsApp) e prompt
+  de música de fundo para o Suno. Não é para explicar conceito nem slide comum.
 ---
 
 # Skill: /mira-history, do texto da história à animação completa

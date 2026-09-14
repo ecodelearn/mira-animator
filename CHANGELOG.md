@@ -4,6 +4,13 @@ Mudanças de cada versão do `mira-animator`, em linguagem de quem usa.
 
 O histórico começa na 0.1.51. Para o que veio antes, veja o `git log`.
 
+## 0.1.69
+
+### Corrigido
+
+**`/mira-history` volta a carregar.** Na 0.1.68 a descrição da skill passou de 1024 caracteres,
+o limite do Claude Code, e a skill podia não aparecer. A descrição foi reescrita, curta.
+
 ## 0.1.68
 
 ### Mudado
