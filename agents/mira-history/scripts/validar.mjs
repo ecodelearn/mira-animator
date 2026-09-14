@@ -151,12 +151,9 @@ seMovem.forEach(nome => {
   if (at && at.tipo !== 'ovo' && !['esquerda', 'direita', 'nenhum'].includes(at.olha)) E(`atores.${nome}: se move ou vira, então precisa de "olha" (esquerda ou direita): para que lado o DESENHO aponta a cabeça. Confira em references/atores.png (node ator.mjs <deck> ver). Errado, o ator anda de costas. Objeto sem frente (casa, pedra): olha: 'nenhum'.`);
 });
 const n = (H.cenas || []).length;
-if (n && n < 6) A(`só ${n} cenas; uma história infantil costuma pedir de 8 a 14`);
 if (n > 18) A(`${n} cenas; acima de 16 fica longo para criança`);
-if (closes === 0) A('nenhum close (camera.plano close): a história fica toda em plano aberto, sem quebra de ritmo');
-if (paletas.size < 3) A(`só ${paletas.size} paleta(s) de céu; alterne pelo menos 3 (ex.: dia, tempestade, inverno, primavera) para a emoção mudar de cor`);
-if (tremores === 0) A('nenhum tremor/raio/tensao: se a história tem um momento de medo ou tensão, use tremor ou tensao');
-if (cortes === 0 && n > 3) A('nenhum corte por dissolve: tudo em plano-sequência cansa; use corte: "dissolve" nos closes e nas trocas de lugar');
+// sem cota: só informa a linguagem usada, para o modelo conferir se cada escolha veio da história
+console.log(`Linguagem usada: ${cortes} corte(s), ${closes} close(s), paletas [${[...paletas].join(', ') || 'nenhuma'}], ${tremores} impacto(s). Nada disso tem mínimo: confira se cada escolha vem da história.`);
 console.log(`Duração estimada da fala: ${Math.round(totalEstimado)} s (${n} cenas). Rode narrar.mjs para medir de verdade.`);
 if (erros.length) { console.log('ERROS:'); erros.forEach(e => console.log('  x ' + e)); }
 if (avisos.length) { console.log('AVISOS:'); avisos.forEach(a => console.log('  - ' + a)); }

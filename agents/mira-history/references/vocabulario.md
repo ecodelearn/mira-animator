@@ -11,7 +11,7 @@ O arquivo é um objeto literal em `window.MiraHistoria = { ... }`. Sem função,
 - Pontos nomeados, no formato `linha.coluna`:
   - linhas: `chao` (padrão), `agua`, `ar` (190), `alto` (90), `fundo` (linha de trás, para árvores)
   - colunas: `foraEsquerda` (-170) · `esquerda` (170) · `meioEsquerda` (330) · `centro` (480) · `meioDireita` (630) · `direita` (790) · `foraDireita` (1130)
-  - o nome de um ator também é um ponto: `para: 'pata'` vai até onde a pata está.
+  - o nome de um ator também é um ponto: `para: 'menina'` vai até onde a menina está.
   - ajuste fino com `dx` e `dy` (unidades), ou coordenadas cruas `{ x: 300, y: 445 }`.
 
 ## Raiz
@@ -32,26 +32,26 @@ O arquivo é um objeto literal em `window.MiraHistoria = { ... }`. Sem função,
 
 ```js
 atores: {
-  pata:  { arquivo: 'pata.svg', altura: 150, olha: 'direita' },
-  feio:  { arquivo: 'patinho-cinza.svg', altura: 90, olha: 'direita', variantes: { cisne: 'cisne.svg' } },
-  ovo1:  { tipo: 'ovo', tamanho: 46, cor: '#FFF8E7' }
+  raposa: { arquivo: 'raposa.svg', altura: 120, olha: 'esquerda' },
+  menina: { arquivo: 'menina.svg', altura: 170, olha: 'direita', variantes: { feliz: 'menina-feliz.svg' } },
+  ovo1:   { tipo: 'ovo', tamanho: 46, cor: '#FFF8E7' }
 }
 ```
 
 - `arquivo`: SVG em `assets/atores/` (instalado por `ator.mjs`). Padrão: `<nome>.svg`.
-- `altura`: altura do ator no mundo (o chão tem 445, um patinho tem 70, uma pata 150, uma árvore 300).
+- `altura`: altura do ator no mundo (o chão tem 445; referências: bicho pequeno 70, criança 150, adulto 200, árvore 300).
 - `olha`: para onde o **desenho** aponta a cabeça (`direita` ou `esquerda`). O runtime espelha o sprite sozinho ao mover, a partir disso. **Obrigatório** para quem se move ou vira. Confira olhando `references/atores.png` (`ator.mjs ver`); declarado errado, o ator anda de costas. Objeto sem frente (casa, pedra, caldeirão) que se move: `olha: 'nenhum'` (nunca espelha).
-- `variantes`: outros SVGs do mesmo personagem (`triste`, `feliz`, `cisne`). `trocar` faz crossfade entre eles.
+- `variantes`: outros SVGs do mesmo personagem (`triste`, `feliz`, `adulto`). `trocar` faz crossfade entre eles.
 - `tipo: 'ovo'`: ator procedural (não precisa de SVG) com estados `fechado`, `rachado`, `aberto`.
-- Cada personagem em cena é um ator: três patinhos são `patinho1`, `patinho2`, `patinho3` com o mesmo `arquivo`.
+- Cada personagem em cena é um ator: três irmãos iguais são `irmao1`, `irmao2`, `irmao3` com o mesmo `arquivo`.
 - Ator começa **invisível e fora de cena**. Só aparece com `mostrar`.
 
 ## Lugares
 
 ```js
 lugares: {
-  quintal: { cenario: 'fazenda', decoracao: [ { ator: 'arvore', em: 'fundo.esquerda', escala: 1.1, plano: 'fundo', dx: -60 } ] },
-  lago:    { cenario: 'lago' }
+  clareira: { cenario: 'bosque', decoracao: [ { ator: 'pedra', em: 'chao.meioDireita', escala: 1.1 } ] },
+  praia:    { cenario: 'lago' }
 }
 ```
 
@@ -62,11 +62,11 @@ lugares: {
 ## Cenas
 
 ```js
-{ id: 'c3', lugar: 'quintal', corte: 'dissolve',
-  camera: { plano: 'close', alvo: 'ovo4', movimento: 'fixo' },
+{ id: 'c3', lugar: 'clareira', corte: 'dissolve',
+  camera: { plano: 'close', alvo: 'raposa', movimento: 'fixo' },
   ambiente: { ceu: 'tarde', chuva: 0.3, de: 0, ate: 4 },
   acoes: [ ... ],
-  legendas: ['Porém, o último ovo demorou mais para quebrar.'] }
+  legendas: ['A raposa percebeu que estava sozinha.'] }
 ```
 
 | Campo | O que é |
@@ -100,7 +100,7 @@ Todas aceitam `de` (início, s) e `ate` (fim, s) ou `dur` (duração). Sem `de`,
 | `tremer` | `ator`, `forca` (0..2) | treme de medo ou frio enquanto durar | 2 s |
 | `balancar` | `ator`, `forca` | balança de um lado para o outro (rir, zombar, ninar) | 2 s |
 | `escala` | `ator`, `valor` | cresce ou encolhe até o valor | 1.2 s |
-| `trocar` | `ator`, `variante` (`base` volta ao original), `escala` | crossfade para a variante (patinho vira cisne) | 2 s |
+| `trocar` | `ator`, `variante` (`base` volta ao original), `escala` | crossfade para a variante (a menina sorri, a lagarta vira borboleta) | 2 s |
 | `estado` | `ator`, `valor` | só para `tipo: 'ovo'`: `fechado` · `rachado` · `aberto` | instantâneo |
 
 Modos de repouso: um ator mostrado com `modo: 'boiar'` balança na água; `modo: 'planar'` fica no ar.
@@ -159,17 +159,18 @@ A transição é suave entre `de` e `ate` (3 s por padrão). Para mudar de uma v
 - A narração é gerada 1 mp3 por frase (`narrar.mjs`); a legenda entra junto com a fala e a música baixa enquanto ela fala.
 - `classe: 'titulo'` (só a capa), `'fim'` (automático em `fim: true`), `semVoz: true` (não narra).
 
-## O que faz a história ficar boa (regras do deck de referência)
+## Ferramentas de linguagem (escolha pela história, não por cota)
 
-1. **Quebra de ritmo.** Nem tudo em plano-sequência: a cada 2 ou 3 cenas, um `corte: 'dissolve'` para um `close` (o ovo que demora, o rosto triste, a descoberta no reflexo).
-2. **Câmera com intenção.** `aberto` para apresentar o lugar, `aproximar`/`acompanhar` para seguir o personagem, `close` no momento de emoção, `afastar` para revelar. Nunca a mesma câmera a história inteira.
-3. **A cor conta a emoção.** Alterne pelo menos 3 paletas: alegria em `dia`/`primavera`, tristeza em `porDoSol`/`anoitecer`, medo em `tempestade`, solidão em `inverno`, paz em `tarde`/`amanhecer`.
-4. **Tensão tem tremor.** Trovão, queda, susto: `raio` ou `tremor`. Medo prolongado: `tensao` + `tremer` no ator.
-5. **Ator vivo.** Mesmo parado, respira. Enquanto anda, balança. Use `tremer`, `balancar`, `pular` para dar intenção (medo, riso, alegria).
-6. **Partículas e névoa** nos momentos mágicos ou de manhã. `vinheta` mais alta nas cenas tensas.
-7. **A cena termina em repouso.** A última ação acaba antes da última frase terminar; o botão de avançar só fica verde quando ação e narração acabaram.
-8. **Um lugar por trecho.** Troque de lugar quando a história viaja (quintal, caminho, lago), sempre com corte.
+Nada aqui é obrigatório nem tem número mínimo. São recursos: use o que a SUA história pede, onde ela pede. Duas histórias diferentes devem sair com cenas, câmeras, lugares e cores diferentes.
+
+- **Corte e close.** O plano-sequência dá continuidade; o `corte: 'dissolve'` para um `close` dá peso a um instante (uma descoberta, um rosto, um objeto que importa). Uma história toda em plano aberto costuma ficar distante; uma cheia de closes perde o fôlego.
+- **Câmera com intenção.** `aberto` apresenta o lugar, `acompanhar` segue quem anda, `aproximar` cria intimidade, `afastar` revela ou deixa sozinho.
+- **Cor e clima contam a emoção.** A paleta e o clima podem acompanhar o que o personagem sente ou o tempo que passa. Escolha pelo texto: uma história que se passa numa noite só pode ficar inteira em `noite` e variar com `lua`, `vagalumes`, `neblina`.
+- **Impacto.** Trovão, queda, susto, sopro forte: `raio`, `tremor`, `clarao`. Medo prolongado: `tensao` + `tremer` no ator.
+- **Ator vivo.** Parado, respira; andando, balança. `tremer`, `balancar`, `pular` dão intenção.
+- **A cena termina em repouso.** A última ação acaba antes da última frase; o botão de avançar só fica verde quando ação e narração acabaram.
+- **Troca de lugar com corte.** Quando a história viaja, o lugar muda e o runtime corta.
 
 ## Duração
 
-Cada cena dura o máximo entre: fim da última ação, fim da última narração + 0.9 s, e `dur`. História infantil: **8 a 14 cenas, 90 a 160 s**.
+Cada cena dura o máximo entre: fim da última ação, fim da última narração + 0.9 s, e `dur`. O número de cenas sai da história: um conto curto pode ter 5, um longo 16. Acima de uns 4 minutos fica longo para criança.

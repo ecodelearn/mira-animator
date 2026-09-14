@@ -45,7 +45,6 @@
     "agents/mira-sequence",
     "agents/mira-sequence-director",
     "agents/mira-history",
-    "agents/mira-history-video",
     "agents/mira-slide-to-video",
     "agents/mira-offline",
     "agents/mira-builder/SKILL.md",

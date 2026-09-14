@@ -1,4 +1,4 @@
-// /mira-history-video: grava a história de um deck do /mira-history num .mp4 com
+// /mira-history (vídeo, só quando o autor pede): grava a história de um deck do /mira-history num .mp4 com
 // narração e música, sem controle nenhum na tela, na cadência da própria história.
 //
 //   node video.mjs <deck> [--saida arquivo.mp4] [--fps 30] [--largura 1920] [--respiro 0.6]

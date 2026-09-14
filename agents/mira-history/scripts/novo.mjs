@@ -1,7 +1,7 @@
 // Cria a pasta de um deck do /mira-history com toda a árvore, runtime, vendor,
 // launchers, catálogo de atores e a música escolhida.
 //
-//   node novo.mjs "<slug>" --titulo "O Patinho Feio" [--musica quiet-storybook-night] [--data 2026-09-12] [--decks decks]
+//   node novo.mjs "<slug>" --titulo "Título da história" [--musica quiet-storybook-night] [--data 2026-09-12] [--decks decks]
 //
 // Saída: decks/YYYY-MM-DD <slug>/ pronta para receber mira/historia.js.
 import { existsSync, mkdirSync, cpSync, copyFileSync, readFileSync, writeFileSync, readdirSync } from 'fs';

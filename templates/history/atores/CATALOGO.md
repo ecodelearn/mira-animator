@@ -6,7 +6,7 @@ Todos de fonte aberta, licença CC0 (Openclipart), origem no comentário do pró
 | Arquivo | O que é | Olha para | Altura sugerida | Observação |
 |---|---|---|---|---|
 | `patinho.svg` | patinho amarelo, de perfil | direita | 70 | use vários (`patinho1`, `patinho2`...) |
-| `patinho-cinza.svg` | o mesmo patinho recolorido em cinza | direita | 90 | protagonista do Patinho Feio |
+| `patinho-cinza.svg` | o mesmo patinho recolorido em cinza | direita | 90 | variante cinza, por recoloração |
 | `pata.svg` | pato adulto cartoon, de perfil | direita | 150 | serve de pata mãe |
 | `cisne.svg` | cisne branco nadando | esquerda | 120 | fica bonito na linha `agua` (reflexo) |
 | `galinha.svg` | galinha no ninho | direita | 130 | está sentada no ninho: não faça andar |

@@ -9,7 +9,10 @@ description: >-
   vocabulário fechado; o runtime versionado mira-history.js anima. Use SEMPRE que o
   usuário disser /mira-history, "anima essa história", "história animada", "conto
   infantil animado", "transforma essa história em animação", "historinha para o celular",
-  "contar essa história com narração", ou colar um conto e pedir animação. NÃO é para
+  "contar essa história com narração", ou colar um conto e pedir animação. Também, sobre um
+  deck feito por ela: "vídeo da história", "exporta em mp4", "manda para vídeo", "versão
+  para WhatsApp" (gera o .mp4) e "música de fundo", "prompt para o Suno" (entrega um prompt
+  de música instrumental com a cara da história). NÃO é para
   explicar conceito (isso é /mira-animator e /mira-sequence-director) nem para deck de
   slides comum.
 ---
@@ -27,8 +30,12 @@ Siga `agents/_shared/idioma.md`. Todo texto visível em português brasileiro co
 ## Leia antes de qualquer coisa
 
 1. `references/vocabulario.md` inteiro. É a lista fechada do que o runtime entende. Campo fora dela é erro.
-2. `references/exemplo-historia.js`: O Patinho Feio completo, 15 cenas. **Copie a estrutura dele e adapte.** Não invente estrutura.
+2. `references/esqueleto-historia.js`: só a sintaxe do arquivo, com lugares vazios em MAIÚSCULAS. Não é uma história.
 3. `references/roteiro-gabarito.md`: o formato do roteiro que você escreve antes do `historia.js`.
+
+## Liberdade de criação
+
+O vocabulário é fechado; a direção é sua. O que é fixo: os campos e ações que o runtime entende. O que é livre, e tem que sair da leitura DESTA história: quantas cenas, quais lugares e cenários, quem está em cena, onde corta, onde fecha em close, que câmera, que cor e clima em cada momento, que gestos cada ator faz. Não existe história modelo para imitar. Se a história já foi feita antes, por você ou em outro deck, faça de novo a partir do texto, não do deck antigo.
 
 ## Onde estão os scripts
 
@@ -51,22 +58,22 @@ Cria `decks/AAAA-MM-DD <slug>/` com toda a árvore (`references/`, `assets/atore
 
 ## Passo 2, o roteiro
 
-Escreva `references/history-roteiro.md` no formato do gabarito. Quebre a história em **8 a 14 cenas** (teto 16), cada uma com: id, lugar, corte ou não, emoção, paleta e clima, câmera, ação principal, quem entra e sai, 1 ou 2 frases de legenda.
+Escreva `references/history-roteiro.md` no formato do gabarito. Comece pela **leitura de diretor** (o que esta história tem de só dela, onde está o coração, como o mundo muda, o que o autor vai querer ver acontecer). Depois quebre em cenas; o número sai do tamanho e do ritmo do texto (teto 16). Cada cena tem: id, lugar, corte ou não, emoção, paleta e clima, câmera, **ação observável**, **estado final esperado**, 1 ou 2 frases de legenda.
 
-Regras de ritmo, que o `validar.mjs` cobra como aviso:
+O que é regra:
 
-- Primeira cena `capa` (um cartaz da história: o protagonista no lugar mais bonito, título, e os botões "Começar a história" e "Tocar tudo sozinho"). Última com `fim: true`.
-- **A cada 2 ou 3 cenas, um corte por dissolve para um close.** Plano aberto o tempo todo é o defeito número 1 (foi o que fez a primeira versão do deck de referência ser rejeitada).
-- Pelo menos **3 paletas de céu** ao longo da história. A cor conta a emoção.
-- Momento de medo, trovão ou susto tem `raio`, `tremor` ou `tensao`.
-- Troca de lugar (quintal, caminho, lago) coincide com corte.
+- Primeira cena `capa` (um cartaz da história, título, e os botões "Começar a história" e "Tocar tudo sozinho"). Última com `fim: true`.
+- **Toda ação que o texto conta e que dá para ver acontece na tela.** Se o texto diz que alguém entra, foge, cai, encontra, a cena mostra isso com atores se movendo, não só com a legenda.
+- Troca de lugar coincide com corte.
+
+O que é escolha sua, pela história (veja "Ferramentas de linguagem" no `vocabulario.md`): closes, cortes, paletas, clima, tremor. Nenhum tem cota. Plano aberto o tempo todo costuma ficar distante, e a mesma paleta do começo ao fim costuma ficar parada; mas decida olhando o texto, não um número.
 - **Legendas:** frases curtas, fiéis ao texto original (é a fala do narrador), nenhuma com menos de 3 palavras, no máximo 2 por cena. O texto da história é a narração; não invente diálogo.
 
 ## Passo 3, os atores
 
 Regra herdada do `/mira-asset-scout`: **animal, pessoa, veículo e objeto detalhado nunca são desenhados à mão.** Vêm de SVG.
 
-1. **Catálogo primeiro.** `novo.mjs` listou os atores do catálogo (patinho, patinho-cinza, pata, cisne, galinha, gato, ganso, arvore, pinheiro-neve, taboa, e o que for acrescentado). Para cada um que a história usa:
+1. **O elenco sai da história, não do catálogo.** Decida primeiro quem a história pede. O catálogo que `novo.mjs` listou é atalho só quando o personagem é aquele mesmo bicho ou objeto; não troque um personagem da história por outro só porque já está no catálogo. Para cada um que existe lá:
    ```
    node <skill>/scripts/ator.mjs "<deck>" catalogo <nome>
    ```
@@ -75,9 +82,9 @@ Regra herdada do `/mira-asset-scout`: **animal, pessoa, veículo e objeto detalh
    node <skill>/scripts/ator.mjs "<deck>" add <nome> <arquivo.svg> --de <url> --autor "<autor>" --licenca CC0
    ```
    O script normaliza (remove metadados, prefixa ids, mede a caixa visível), guarda o original em `references/assets/`, o normalizado em `assets/atores/`, anota `references/CREDITS.md` e regrava `mira/atores.js`.
-3. **Variantes por recoloração.** Um patinho cinza é o patinho amarelo recolorido: `--cor "#ddc177=#9aa2ab"` (repita `--cor` por cor). Liste as cores do SVG com `grep -o 'fill:#[0-9a-f]*' arquivo.svg | sort | uniq -c`. Silhueta sem cor declarada ganha cor com `--fill "#4E7A3A"`.
+3. **Variantes por recoloração.** O mesmo desenho em outra cor (um irmão diferente, a roupa de festa) é recoloração: `--cor "#ddc177=#9aa2ab"` (repita `--cor` por cor). Liste as cores do SVG com `grep -o 'fill:#[0-9a-f]*' arquivo.svg | sort | uniq -c`. Silhueta sem cor declarada ganha cor com `--fill "#4E7A3A"`.
 4. **Sem web nesta sessão ou não achou:** diga isso em uma linha e ofereça: (a) o autor manda o SVG; (b) troca por um ator do catálogo parecido (um ganso no lugar de um pato); (c) a cena passa a ser contada sem esse personagem em tela. Sem resposta, siga pela (b). Nunca desenhe o animal.
-5. Ovos são procedurais: `{ tipo: 'ovo' }`. Sol, lua, nuvens, chuva, neve, névoa, colinas, água, celeiro, cerca, juncos: o runtime desenha.
+5. Ovos são procedurais: `{ tipo: 'ovo' }`. Sol, lua, nuvens, chuva, neve, névoa, colinas e água: o runtime desenha. O que dá cara a um lugar (casa, ponte, poço, pedra, castelo, móvel) é decoração em SVG, buscada como qualquer ator.
 6. **Confira o sentido de cada ator (obrigatório).** O runtime espelha o sprite pela direção em que ele anda, a partir do campo `olha`. Se você declarar `olha: 'direita'` para um desenho que olha para a esquerda, o ator **anda de costas** a história inteira. Não adivinhe pelo nome do arquivo:
    ```
    node <skill>/scripts/ator.mjs "<deck>" ver
@@ -86,13 +93,13 @@ Regra herdada do `/mira-asset-scout`: **animal, pessoa, veículo e objeto detalh
 
 ## Passo 4, escrever `mira/historia.js`
 
-Copie o `references/exemplo-historia.js` e adapte: atores, lugares, cenas. Só o vocabulário do `vocabulario.md`. Tempos em segundos. O que mais dá errado, e como evitar:
+Escreva a partir do SEU roteiro, com a sintaxe do `references/esqueleto-historia.js`. Só o vocabulário do `vocabulario.md`. Tempos em segundos. O que mais dá errado, e como evitar:
 
 - **Reposicionar um ator no começo de uma cena sem corte.** O mundo é contínuo: quem já está em cena continua onde parou. Use `mover`, não `mostrar` de novo.
 - **Esquecer de mostrar quem entra num lugar novo.** Mudar de `lugar` esconde todo mundo; quem aparece precisa de `mostrar` (com `dur: 0.01` se já deve estar lá no primeiro quadro).
 - **Legenda de 1 ou 2 palavras.** A voz troca de idioma. Mínimo 3.
 - **Duas ações disputando o mesmo ator ao mesmo tempo** (dois `mover` sobrepostos). Encadeie: `ate` de uma é o `de` da próxima.
-- **Câmera `close` sem alvo.** Close mira um ator: `alvo: 'feio'`.
+- **Câmera `close` sem alvo.** Close mira um ator: `alvo: '<nome do ator>'`.
 - **Ator que aparece de pé na água.** Na água use a linha `agua.*` e `modo: 'nadar'` ou `'boiar'`; o runtime desenha o reflexo.
 - **Cena muito longa sem nada acontecendo.** Se a fala dura 8 s, dê 8 s de ação (andar, olhar, tremer, câmera aproximando).
 - **Clima que não vai embora.** `ambiente` só mexe nos canais citados: ao sair da tempestade escreva `chuva: 0, nuvens: 0.2, frio: 0`; ao sair do inverno, `neve: 0, gelo: 0`.
@@ -106,13 +113,13 @@ node <skill>/scripts/conferir.mjs "<deck>"     # screenshots de cada cena em 3 i
 node <skill>/scripts/conferir.mjs "<deck>" --movimentos   # um quadro por movimento, com seta: ninguém anda de costas
 ```
 
-- `validar.mjs` rejeita campo desconhecido, ator inexistente, variante inexistente, ponto inválido, frase curta. Corrija até `OK`.
+- `validar.mjs` rejeita campo desconhecido, ator inexistente, variante inexistente, ponto inválido, frase curta. Corrija até `OK`. A linha "Linguagem usada" não é cota: serve para você conferir se cada corte, close e paleta veio da história.
 - `narrar.mjs` só regera o que mudou (cache por texto e voz). Sem ele, o runtime estima a duração pela contagem de palavras.
 - `conferir.mjs --movimentos` grava `folha-movimentos.png`: um quadro no meio de cada `mover`, com uma seta vermelha em cima do ator dizendo para onde ele anda. **Abra e confira: a cabeça do ator tem que apontar para a seta.** Ator de costas para a seta = `olha` invertido em `historia.js`; corrija e rode de novo. Esta conferência é obrigatória antes de entregar.
 - `conferir.mjs` grava em `references/conferencia/` e monta `folha.png`. **Abra a folha e olhe** cada quadro: ator faltando, ator flutuando, texto em cima de rosto, câmera cortando o personagem, paleta parada. Corrija o `historia.js` e rode de novo. Com `--leve` simula celular. Com `--cena c3 --instantes 1s,4s` mira um problema.
 - Toda mudança em legenda pede `narrar.mjs` de novo (os tempos dependem da voz).
 
-Não entregue sem ter olhado a folha da versão final. O deck de referência levou 25 rodadas de ajuste com o autor; o mínimo que você faz é olhar o que gerou.
+Não entregue sem ter olhado a folha da versão final. Na folha, compare com o roteiro: cada ação observável aparece? cada estado final bate?
 
 ## Passo 6, entrega
 
@@ -124,6 +131,35 @@ Diga ao autor, em poucas linhas:
 - Número de cenas, duração total (o `conferir.mjs` imprime), voz e música usadas.
 - O que ficou de fora e por quê (ator não encontrado, cena simplificada).
 
+## Música de fundo para o Suno (quando o autor pedir)
+
+Se o autor pedir uma música de fundo própria para a história, a skill não gera áudio: entrega um prompt para ele gerar no Suno (suno.com). Grave em `references/musica-suno.md` e mostre no chat.
+
+Monte a partir do roteiro (emoção, lugares, época, ritmo), nunca de um modelo fixo:
+
+- **Title:** nome curto ligado à história.
+- **Style of Music** (até 200 caracteres, em inglês, que o Suno entende melhor): `instrumental`, gênero e clima (ex.: lullaby, folk, orchestral, celtic), 2 a 4 instrumentos que combinam com o mundo da história, andamento lento o bastante para não brigar com a narração (60 a 90 BPM) e a curva emocional em poucas palavras.
+- **Exclude Styles:** `vocals, singing, choir, lyrics, spoken word, heavy drums, distortion`.
+- **Lyrics:** vazio, com a opção **Instrumental** ligada.
+- Uma linha dizendo por que esse som tem a cara da história.
+
+A música fica por baixo da voz o tempo todo: peça textura suave, sem melodia que chame atenção, sem batida forte, e com loop natural (sem final abrupto). Quando o autor trouxer o mp3, copie para `assets/musica/`, aponte `musica` no `historia.js` e rode `conferir.mjs` de novo.
+
+## Vídeo da história (quando o autor pedir)
+
+Se o autor pedir a história em vídeo (.mp4, YouTube, WhatsApp), grave a partir do deck pronto. Sem controle nenhum na tela, na cadência da história: o script dirige o relógio do runtime quadro a quadro em Chrome headless, emenda as cenas com corte seco ou dissolve e monta o áudio com cada frase no instante da legenda e a música baixando na fala.
+
+Pré-requisitos: narração gerada (`narrar.mjs`), Chrome, puppeteer, `ffmpeg` no PATH (ou `MIRA_FFMPEG`). Deck antigo sem `window.__miraVideo`: copie o `mira-history.js` novo de `templates/authoring/`.
+
+```
+node <skill>/scripts/video.mjs "<deck>" [--whatsapp] [--saida arquivo.mp4] [--fps 30] [--largura 1920] [--respiro 0.6] [--sem-musica] [--cenas c1,c2] [--qualidade 18]
+```
+
+- Padrão: 1920x1080, 30 fps, `<deck>/<slug>.mp4`. Uns 8 a 12 minutos de render para 2,5 minutos de história. Teste rápido: `--cenas capa,c1 --fps 12 --largura 960`.
+- `--whatsapp`: gera também `<nome>-whatsapp.mp4` em 720p leve (uns 10 a 12 MB por 2,5 minutos).
+- Se a emenda falhar, `--reusar <pasta-temp>` (impressa pelo script) refaz só emenda e áudio sem recapturar.
+- Confira com `ffprobe` (vídeo e áudio) e 2 ou 3 quadros (`ffmpeg -ss <s> -i video.mp4 -frames:v 1 q.png`): nenhum controle na tela, legenda legível. Reporte caminho, duração e resolução. O deck não é alterado.
+
 ## Portões de entrega
 
 - [ ] Pasta criada por `novo.mjs`, com `references/`, `assets/atores`, `assets/narracao`, `mira/` e os launchers.
@@ -131,7 +167,7 @@ Diga ao autor, em poucas linhas:
 - [ ] Todo ator concreto vem de SVG do catálogo ou da web com licença anotada em `references/CREDITS.md`; nenhum desenhado à mão.
 - [ ] `historia.js` só com o vocabulário; `validar.mjs` em `OK`.
 - [ ] Capa com título e QR; última cena com `fim: true`.
-- [ ] Pelo menos 2 closes por dissolve, 3 paletas, 1 tremor ou raio onde há tensão.
+- [ ] Toda ação observável do roteiro aparece na folha; câmera, cortes e clima escolhidos pela história.
 - [ ] Narração gerada por `narrar.mjs`, nenhuma frase com menos de 3 palavras.
 - [ ] `conferir.mjs` rodado na versão final, folha olhada, sem erro no console.
 - [ ] `ator.mjs ver` olhado e `olha` declarado para todo ator que se move; `conferir.mjs --movimentos` olhado: nenhum ator anda de costas.
@@ -141,7 +177,7 @@ Diga ao autor, em poucas linhas:
 ## Limites conhecidos, diga na entrega
 
 - **Sprites rígidos.** Os atores não têm braço, asa ou boca articulados: a expressão vem de variantes (outro SVG) e do movimento de corpo inteiro (tremer, balançar, pular). Um close mostra o desenho maior, não um rosto que muda.
-- **Sem web, sem ator novo.** O catálogo cobre bicho de fazenda e lago; fora disso depende de busca ou do autor.
+- **Sem web, sem ator novo.** O catálogo é pequeno; fora dele depende de busca ou do autor.
 - **Áudio no celular** começa no botão Começar (política de autoplay). O iPhone ignora controle de volume da música, então o ducking na fala não acontece lá.
 - **View Transitions** (dissolve) existe no Chrome, Edge e Safari 18+; nos outros o corte é um véu preto rápido.
 - **A roda do mouse é ignorada**: a navegação é pelos botões, setas e deslizar.
