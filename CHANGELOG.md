@@ -4,28 +4,7 @@ Mudanças de cada versão do `mira-animator`, em linguagem de quem usa.
 
 O histórico começa na 0.1.51. Para o que veio antes, veja o `git log`.
 
-## 0.1.67
-
-### Adicionado
-
-**Vídeo da história no próprio `/mira-history`.** Quando o autor pede, a skill grava o deck num
-.mp4 com narração e música, sem controle nenhum na tela e na cadência da história: dirige o
-relógio do runtime quadro a quadro em Chrome headless (determinístico, não tempo real), emenda
-as cenas com corte seco ou dissolve (`xfade`) e monta o áudio no ffmpeg com cada frase no
-instante da legenda e a música baixando enquanto a voz fala. `--whatsapp` gera também uma cópia
-em 720p leve (uns 12 MB para 2,5 minutos) e `--reusar` refaz só a emenda e o áudio sem
-recapturar os quadros.
-
-**Prompt de música para o Suno no `/mira-history`.** Se o autor pede uma música de fundo, a skill
-escreve em `references/musica-suno.md` um prompt de música instrumental com a cara da história
-(estilo, instrumentos, andamento que não briga com a narração, estilos a excluir).
-
-**Validação do sentido dos atores no `/mira-history`.** Um teste com modelo mais fraco saiu com
-os porquinhos andando de costas: o campo `olha` foi declarado ao contrário do desenho. Agora
-`ator.mjs <deck> ver` gera `references/atores.png` para conferir para que lado cada ator olha,
-o `validar.mjs` exige `olha` em todo ator que se move ou vira (`nenhum` para objeto sem frente,
-como casa) e `conferir.mjs --movimentos` marca cada movimento com uma seta do sentido, para
-pegar ator de costas. A skill torna as duas conferências obrigatórias antes de entregar.
+## 0.1.68
 
 ### Mudado
 
@@ -35,6 +14,35 @@ com o mesmo ambiente. Agora ela traz só um esqueleto de sintaxe com lugares vaz
 começa por uma leitura de diretor com ação observável e estado final de cada cena, e closes,
 cortes, paletas e número de cenas deixam de ter cota: saem da história. O validador só informa a
 linguagem usada. O elenco sai do texto, não do catálogo.
+
+**Vídeo da história dentro do `/mira-history`.** A skill `/mira-history-video` deixa de existir:
+quando o autor pede vídeo, a própria `/mira-history` grava o .mp4 (mesmo `video.mjs`, com
+`--whatsapp` e `--reusar`).
+
+### Adicionado
+
+**Prompt de música para o Suno no `/mira-history`.** Se o autor pede uma música de fundo, a skill
+escreve em `references/musica-suno.md` um prompt de música instrumental com a cara da história
+(estilo, instrumentos, andamento que não briga com a narração, estilos a excluir).
+
+## 0.1.67
+
+### Adicionado
+
+**`/mira-history-video`: a história em um .mp4.** Grava o deck do `/mira-history` num vídeo
+com narração e música, sem controle nenhum na tela e na cadência da história: dirige o
+relógio do runtime quadro a quadro em Chrome headless (determinístico, não tempo real), emenda
+as cenas com corte seco ou dissolve (`xfade`) e monta o áudio no ffmpeg com cada frase no
+instante da legenda e a música baixando enquanto a voz fala. `--whatsapp` gera também uma cópia
+em 720p leve (uns 12 MB para 2,5 minutos) e `--reusar` refaz só a emenda e o áudio sem
+recapturar os quadros.
+
+**Validação do sentido dos atores no `/mira-history`.** Um teste com modelo mais fraco saiu com
+os porquinhos andando de costas: o campo `olha` foi declarado ao contrário do desenho. Agora
+`ator.mjs <deck> ver` gera `references/atores.png` para conferir para que lado cada ator olha,
+o `validar.mjs` exige `olha` em todo ator que se move ou vira (`nenhum` para objeto sem frente,
+como casa) e `conferir.mjs --movimentos` marca cada movimento com uma seta do sentido, para
+pegar ator de costas. A skill torna as duas conferências obrigatórias antes de entregar.
 
 ## 0.1.66
 
