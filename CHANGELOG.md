@@ -4,6 +4,22 @@ Mudanças de cada versão do `mira-animator`, em linguagem de quem usa.
 
 O histórico começa na 0.1.51. Para o que veio antes, veja o `git log`.
 
+## Não lançado
+
+### Adicionado
+
+**`/mira-history`: um ator pode passar à frente de outro e girar.** Dois recursos novos na
+linguagem da história, pedidos numa fábula em que o escorpião monta nas costas do sapo:
+
+- no ator, `camada: 'frente'` (ou `'atras'`) sobrepõe a ordem natural por `y` (quem está mais
+  embaixo fica na frente), para um ator cobrir outro;
+- no ator, `rotacao` (graus) define o ângulo inicial; a ação `girar` (`ator`, `graus`) anima
+  até o ângulo, girando o desenho em torno dos pés (útil para deitar um bicho comprido sobre
+  outro e para gestos de ataque, como o ferrão descendo);
+- a ação `camada` (`ator`, `valor`: `frente` · `atras` · `base`) muda a camada em cena.
+
+Validador e `references/vocabulario.md` atualizados.
+
 ## 0.1.69
 
 ### Corrigido

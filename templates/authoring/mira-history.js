@@ -169,10 +169,11 @@
     function ator0(nome) {
         var a = ATORES[nome] || {};
         return {
-            x: -300, y: CHAO_Y, s: 1, op: 0, flip: (a.olha === 'esquerda') ? -1 : 1, rot: 0,
+            x: -300, y: CHAO_Y, s: 1, op: 0, flip: (a.olha === 'esquerda') ? -1 : 1, rot: (a.rotacao || 0),
             var1: 'base', var2: 'base', varK: 0,      /* crossfade de variante */
             modo: 'parado', pulo: 0, treme: 0, balanca: 0, estado: (a.tipo === 'ovo') ? 'fechado' : '',
             olhaBase: (a.olha === 'esquerda') ? -1 : 1,
+            camada: (a.camada === 'frente' ? 1 : (a.camada === 'atras' ? -1 : 0)),   /* sobrepõe a ordem por y */
             semCara: a.olha === 'nenhum'      /* objeto sem frente (casa, pedra): nunca espelha */
         };
     }
@@ -376,6 +377,8 @@
             case 'tremer': if (at) at.treme = (kl > 0 && kl < 1 ? 1 : 0) * (a.forca != null ? +a.forca : 1); return;
             case 'balancar': if (at) at.balanca = (kl > 0 && kl < 1 ? Math.sin(kl * Math.PI) : 0) * (a.forca != null ? +a.forca : 1); return;
             case 'escala': if (at && isFinite(+a.valor)) at.s = L(orig.s, +a.valor, k); return;
+            case 'girar': if (at && isFinite(+a.graus)) at.rot = L(orig.rot, +a.graus, k); return;
+            case 'camada': if (at) at.camada = (a.valor === 'frente' ? 1 : (a.valor === 'atras' ? -1 : 0)); return;
             case 'trocar': {
                 if (!at) return;
                 at.var1 = orig.var1; at.var2 = a.variante || 'base'; at.varK = k;
@@ -422,7 +425,7 @@
         var at = a.ator ? E.a[a.ator] : null;
         var o = {};
         if (at) {
-            o.op = at.op; o.s = at.s; o.var1 = at.var1;
+            o.op = at.op; o.s = at.s; o.var1 = at.var1; o.rot = at.rot;
             o.pos = { x: at.x, y: at.y };
             if (a.acao === 'mostrar') {
                 var p = resolverPonto(a.em != null ? a.em : (a.x != null ? { x: a.x, y: a.y } : null), E, cena.lugarDef);
@@ -851,8 +854,12 @@
                 set(gJuncos.paths[0], 'stroke', mix(mix('#274A22', '#4E8A3A', dia), '#D8E2EA', neveChao));
             }
 
-            /* atores */
-            var ordem = listaAtores.slice().sort(function (p, q) { return E.a[p].y - E.a[q].y; });
+            /* atores: quem está mais embaixo (y maior) fica na frente; "camada" sobrepõe */
+            var ordem = listaAtores.slice().sort(function (p, q) {
+                var cp = E.a[p].camada || 0, cq = E.a[q].camada || 0;
+                if (cp !== cq) return cp - cq;
+                return E.a[p].y - E.a[q].y;
+            });
             var chaveOrdem = ordem.join('|');
             if (chaveOrdem !== cache.__ordem) { cache.__ordem = chaveOrdem; ordem.forEach(function (nome) { gSet.appendChild(atores[nome].g); }); }
             listaAtores.forEach(function (nome) {
@@ -888,7 +895,7 @@
                 if (!simb) return;
                 var s = (def.altura || 100) * st.s / simb.bbox[3];
                 var ax = simb.bbox[0] + simb.bbox[2] / 2, ay = simb.bbox[1] + simb.bbox[3];
-                set(reg.g, 'transform', 'translate(' + x.toFixed(2) + ',' + (y - bob).toFixed(2) + ') rotate(' + rot.toFixed(2) + ') scale(' + (st.flip * sx).toFixed(4) + ',' + sy.toFixed(4) + ')');
+                set(reg.g, 'transform', 'translate(' + x.toFixed(2) + ',' + (y - bob).toFixed(2) + ') rotate(' + (st.rot + rot).toFixed(2) + ') scale(' + (st.flip * sx).toFixed(4) + ',' + sy.toFixed(4) + ')');
                 Object.keys(reg.usos).forEach(function (v) {
                     var u = reg.usos[v];
                     var op = v === st.var1 ? 1 - st.varK : (v === st.var2 ? st.varK : 0);

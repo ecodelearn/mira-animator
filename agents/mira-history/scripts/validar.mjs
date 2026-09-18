@@ -15,7 +15,7 @@ const erros = [], avisos = [];
 const E = (m) => erros.push(m), A = (m) => avisos.push(m);
 
 const RAIZ = new Set(['titulo', 'subtitulo', 'voz', 'musica', 'volumeMusica', 'capaSemVoz', 'textoComecar', 'textoVoltar', 'textoAutomatico', 'atores', 'lugares', 'cenas']);
-const ATOR = new Set(['arquivo', 'altura', 'olha', 'variantes', 'tipo', 'cor', 'tamanho', 'descricao']);
+const ATOR = new Set(['arquivo', 'altura', 'olha', 'variantes', 'tipo', 'cor', 'tamanho', 'descricao', 'camada', 'rotacao']);
 const LUGAR = new Set(['cenario', 'decoracao', 'descricao']);
 const DECOR = new Set(['ator', 'variante', 'em', 'x', 'y', 'dx', 'dy', 'escala', 'plano', 'virado', 'opacidade']);
 const CENA = new Set(['id', 'capa', 'fim', 'lugar', 'corte', 'dur', 'camera', 'ambiente', 'acoes', 'legendas', 'nota']);
@@ -34,6 +34,8 @@ const ACOES = {
   tremer: ['ator', 'forca', 'de', 'ate', 'dur'],
   balancar: ['ator', 'forca', 'de', 'ate', 'dur'],
   escala: ['ator', 'valor', 'de', 'ate', 'dur', 'curva'],
+  girar: ['ator', 'graus', 'de', 'ate', 'dur', 'curva'],
+  camada: ['ator', 'valor', 'de'],
   trocar: ['ator', 'variante', 'escala', 'de', 'ate', 'dur'],
   estado: ['ator', 'valor', 'de'],
   camera: [...CAMERA],
@@ -76,6 +78,8 @@ Object.entries(H.atores || {}).forEach(([nome, a]) => {
   const arq = (a.arquivo || nome + '.svg').replace(/\.svg$/i, '');
   if (!atoresSvg.has(arq)) E(`atores.${nome}: assets/atores/${arq}.svg não existe (use ator.mjs add ou catalogo)`);
   if (!a.altura) A(`atores.${nome}: sem "altura" (padrão 100)`);
+  if (a.camada && !['frente', 'atras'].includes(a.camada)) E(`atores.${nome}: camada "${a.camada}" (frente, atras)`);
+  numero(a.rotacao, `atores.${nome}`, 'rotacao', -360, 360);
   Object.entries(a.variantes || {}).forEach(([v, f]) => { if (!atoresSvg.has(String(f).replace(/\.svg$/i, ''))) E(`atores.${nome}.variantes.${v}: assets/atores/${f} não existe`); });
 });
 Object.entries(H.lugares || {}).forEach(([nome, l]) => {
@@ -116,12 +120,14 @@ const seMovem = new Set();
     chaves(a, new Set(['acao', ...ACOES[a.acao]]), o + ' ' + a.acao);
     if (ACOES[a.acao].includes('ator') && !['camera', 'ambiente'].includes(a.acao)) { if (!a.ator) E(`${o}: ação ${a.acao} sem "ator"`); else if (!H.atores[a.ator]) E(`${o}: ator "${a.ator}" não declarado`); }
     ['de', 'ate', 'dur', 'dx', 'dy', 'x', 'y', 'escala', 'zoom', 'forca', 'vezes', 'altura', 'opacidade'].forEach(k => numero(a[k], o, k));
-    if (a.acao !== 'estado') numero(a.valor, o, 'valor');
+    if (a.acao !== 'estado' && a.acao !== 'camada') numero(a.valor, o, 'valor');
     if (a.dur != null && +a.dur <= 0) E(`${o}: "dur" precisa ser maior que zero`);
     if (a.acao === 'mostrar') { validarPonto(a.em, o); temVariante(a.ator, a.variante, o); if (a.modo && !MODOS.includes(a.modo)) E(`${o}: modo "${a.modo}" (${MODOS.join(', ')})`); if (a.virado && !['esquerda', 'direita'].includes(a.virado)) E(`${o}: virado "${a.virado}"`); }
     if (['mover', 'virar', 'olhar'].includes(a.acao) && a.ator && H.atores[a.ator] && H.atores[a.ator].olha === 'nenhum' && a.acao !== 'mover') E(`${o}: ${a.ator} tem olha: 'nenhum' e não pode virar`);
     if ((a.acao === 'virar' || a.acao === 'olhar') && !['esquerda', 'direita'].includes(a.para)) E(`${o}: "para" precisa ser esquerda ou direita`);
     if (a.acao === 'escala' && a.valor == null) E(`${o}: escala sem "valor"`);
+    if (a.acao === 'girar') { if (a.graus == null) E(`${o}: girar sem "graus"`); else numero(a.graus, o, 'graus', -360, 360); }
+    if (a.acao === 'camada' && !['frente', 'atras', 'base'].includes(a.valor)) E(`${o}: camada "${a.valor}" (frente, atras, base)`);
     if (a.acao === 'mover' || a.acao === 'virar' || a.acao === 'olhar' || (a.acao === 'mostrar' && a.virado)) { if (a.ator) seMovem.add(a.ator); }
     if (a.acao === 'mover') { if (a.para == null) E(`${o}: mover sem "para"`); validarPonto(a.para, o); if (a.modo && !MODOS.includes(a.modo)) E(`${o}: modo "${a.modo}" (${MODOS.join(', ')})`); }
     if (a.acao === 'trocar') { if (!a.variante) E(`${o}: trocar sem "variante"`); temVariante(a.ator, a.variante, o); }

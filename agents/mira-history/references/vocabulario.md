@@ -41,6 +41,8 @@ atores: {
 - `arquivo`: SVG em `assets/atores/` (instalado por `ator.mjs`). Padrão: `<nome>.svg`.
 - `altura`: altura do ator no mundo (o chão tem 445; referências: bicho pequeno 70, criança 150, adulto 200, árvore 300).
 - `olha`: para onde o **desenho** aponta a cabeça (`direita` ou `esquerda`). O runtime espelha o sprite sozinho ao mover, a partir disso. **Obrigatório** para quem se move ou vira. Confira olhando `references/atores.png` (`ator.mjs ver`); declarado errado, o ator anda de costas. Objeto sem frente (casa, pedra, caldeirão) que se move: `olha: 'nenhum'` (nunca espelha).
+- `camada`: `frente` ou `atras` sobrepõe a ordem natural por `y` (quem está mais embaixo fica na frente). Use quando um ator precisa passar por cima de outro, como o escorpião montado nas costas do sapo: `camada: 'frente'`.
+- `rotacao`: ângulo inicial do desenho em graus (padrão 0). Positivo gira no sentido horário. Útil para deitar um bicho comprido: `rotacao: -90` deita de barriga para baixo. A ação `girar` anima a partir daqui.
 - `variantes`: outros SVGs do mesmo personagem (`triste`, `feliz`, `adulto`). `trocar` faz crossfade entre eles.
 - `tipo: 'ovo'`: ator procedural (não precisa de SVG) com estados `fechado`, `rachado`, `aberto`.
 - Cada personagem em cena é um ator: três irmãos iguais são `irmao1`, `irmao2`, `irmao3` com o mesmo `arquivo`.
@@ -100,6 +102,8 @@ Todas aceitam `de` (início, s) e `ate` (fim, s) ou `dur` (duração). Sem `de`,
 | `tremer` | `ator`, `forca` (0..2) | treme de medo ou frio enquanto durar | 2 s |
 | `balancar` | `ator`, `forca` | balança de um lado para o outro (rir, zombar, ninar) | 2 s |
 | `escala` | `ator`, `valor` | cresce ou encolhe até o valor | 1.2 s |
+| `girar` | `ator`, `graus` | gira o desenho até o ângulo (em torno dos pés); anima a partir de `rotacao` | 1.2 s |
+| `camada` | `ator`, `valor` (`frente` · `atras` · `base`) | força o ator para a frente ou para trás dos outros, sobrepondo a ordem por `y` | instantâneo |
 | `trocar` | `ator`, `variante` (`base` volta ao original), `escala` | crossfade para a variante (a menina sorri, a lagarta vira borboleta) | 2 s |
 | `estado` | `ator`, `valor` | só para `tipo: 'ovo'`: `fechado` · `rachado` · `aberto` | instantâneo |
 
